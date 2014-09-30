@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "include.html" %}
+    <!-- libraries -->
+    <link rel="stylesheet" type="text/css" href="/static/css/lib/font-awesome.css" />
+    
+    <!-- this page specific styles -->
+    <link rel="stylesheet" href="/static/css/compiled/user-list.css" type="text/css" media="screen" />
+    <script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
+</head>
+<body>
+
+    {% include "navbar.html" %}
+
+    {% include "sidebar.html" %}
+
+	<!-- main container -->
+    <div class="content">
+        
+        {% include "sideChanger.html" %}
+        
+        <div class="container-fluid">
+            <div id="pad-wrapper" class="users-list">
+                <div class="row-fluid header">
+                    <h3>Score</h3>
+                    <div class="span10 pull-right">
+                        <input type="text" id="searchtext" class="span5 search" placeholder="Type a user's ID..." onKeyDown="javascript:if (event.keyCode==13) search();" />
+                        <script type="text/javascript">
+                        function search()
+                        {
+                           window.location="/manage/eventlist?SearchName="+$("#searchtext").attr('value'); 
+                        };
+                        </script>
+
+                    </div>
+                    </div>
+                </div>
+
+                <!-- User table -->
+                <div class="row-fluid table-list table">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="span2 sortable">
+                                    No.
+                                </th>
+                                <th class="span2 sortable">
+                                    <span class="line"></span>User ID
+                                </th>
+                                <th class="span2 sortable">
+                                    <span class="line"></span>Score
+                                </th>
+                                <th class="span5 sortable">
+                                    <span class="line"></span>Event
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <!-- row -->
+                        {%  for salary in salarys %}
+                        <tr class="first">
+                            <td>
+                                {{forloop.counter}}
+                            </td>
+                            <td>
+                                <a href="user-profile.html" class="name">{{salary.UserID}}</a>
+                            </td>
+                            <td>
+                                <a class="name">{{salary.Score}}</a>
+                            </td>
+                            <td>
+                                <a class="name">{{salary.Event}}</a>
+                            </td>
+                        </tr>
+                        {%  endfor %}
+                        
+                        </tbody>
+                    </table>
+                </div>
+                {% if salarys.object_list and salarys.paginator.num_pages > 1 %}
+                <div class="pagination pull-right">
+                    <ul>
+                        {% if salarys.has_previous %}
+                        <li><a href="?page={{salarys.previous_page_number}}">&#8249;</a></li>
+                        <li><a href="?page={{salarys.previous_page_number}}">{{salarys.previous_page_number}}</a></li>
+                        {% endif %}
+
+                        <li><a class="active" href="?page={{blogs.number}}">{{salarys.number}}</a></li>
+
+                        {% if salarys.has_next %}
+                        <li><a href="?page={{salarys.next_page_number}}">{{salarys.next_page_number}}</a></li>
+                        <li><a href="?page={{salarys.next_page_number}}">&#8250;</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                {% endif %}
+                <!-- end User table -->
+            </div>
+        </div>
+    </div>
+    <!-- end main container -->
+
+</body>
+</html>

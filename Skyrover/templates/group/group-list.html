@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    {% include "include.html" %}
+    <!-- libraries -->
+    <link href="/static/css/lib/font-awesome.css" type="text/css" rel="stylesheet" />
+    
+    <!-- this page specific styles -->
+    <link rel="stylesheet" href="/static/css/compiled/user-list.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/static/css/compiled/new-user.css" type="text/css" media="screen" />
+    
+    <!-- dialog -->
+    <script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/jui/jquery.ui.css" media="screen" />
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="/static/js/group-dialog.js"></script>
+</head>
+<body>
+
+    {% include "navbar.html" %}
+
+    {% include "sidebar.html" %}
+
+	<!-- main container -->
+    <div class="content">
+        
+        {% include "sideChanger.html" %}
+        
+        <div class="container-fluid">
+            <div id="pad-wrapper" class="users-list">
+                <div class="row-fluid header">
+                    <h3>Group</h3>
+                    <div class="span10 pull-right">
+                        <input type="text" id="searchtext" class="span5 search" placeholder="Type a group's name..." onKeyDown="javascript:if (event.keyCode==13) search();" />
+                        
+                        <!-- custom popup filter -->
+                        <!-- styles are located in css/elements.css -->
+                        <!-- script that enables this dropdown is located in js/theme.js -->
+
+                        <div class="ui-dropdown">
+                            <div class="head" data-toggle="tooltip" title="Click me!">
+                                Filter users
+                                <i class="arrow-down"></i>
+                            </div>  
+                            <div class="dialog">
+                                <div class="pointer">
+                                    <div class="arrow"></div>
+                                    <div class="arrow_border"></div>
+                                </div>
+                                <div class="body">
+                                    <p class="title">
+                                        Show users where:
+                                    </p>
+                                    <div class="form">
+                                        <select>
+                                            <option />Name
+                                            <option />Email
+                                            <option />Number of orders
+                                            <option />Signed up
+                                            <option />Last seen
+                                        </select>
+                                        <select>
+                                            <option />is equal to
+                                            <option />is not equal to
+                                            <option />is greater than
+                                            <option />starts with
+                                            <option />contains
+                                        </select>
+                                        <input type="text" />
+                                        <a class="btn-flat small">Add filter</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="button" class="btn-flat success pull-right mws-jui-dialog-mdl-btn-new" value="+ NEW GROUP" />
+                            <div id="mws-jui-dialog-new">
+                            	{%  include "group/new-group.html" %}
+                            </div>
+                    </div>
+                    <div id="mws-jui-dialog-edit">
+                        {%  include "group/edit-group.html" %}
+                    </div>
+                </div>
+
+                <!-- Groups table -->
+                <div class="row-fluid table-list table">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="span3 sortable">
+                                    No.
+                                </th>
+                                <th class="span4 sortable">
+                                    <span class="line"></span>Group Name
+                                </th>
+                                <th class="span3 sortable">
+                                    <span class="line"></span>Group User Number
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <!-- row -->
+                        {%  for group in groups %}
+                        <tr class="first">
+                            <td>
+                                {{forloop.counter}}
+                            </td>
+                            <td>
+                                <a href="user-profile.html" class="name">{{group.Name}}</a>
+                                <span class="subtext">leader:  {{group.GroupMaster}}</span>
+                            </td>
+                            <td>
+                                {{ group.employee_set.count }}
+                            </td>
+                            <td class="align-right">
+                                <ul class="actions">
+                                    <li><i class="table-edit mws-jui-dialog-mdl-btn-edit" onclick=changeID({{group.id}}) ></i></li>
+                                    <li class="last" ><a href="{% url 'delgroup' %}?delgroupID={{group.id}}" class="table-delete"></a></li>
+                                 </ul>
+                            </td>
+
+                        </tr>
+                        {%  endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% if groups.object_list and groups.paginator.num_pages > 1 %}
+                <div class="pagination pull-right">
+                    <ul>
+                        {% if groups.has_previous %}
+                        <li><a href="?page={{groups.previous_page_number}}">&#8249;</a></li>
+                        <li><a href="?page={{groups.previous_page_number}}">{{groups.previous_page_number}}</a></li>
+                        {% endif %}
+
+                        <li><a class="active" href="?page={{groups.number}}">{{groups.number}}</a></li>
+
+                        {% if groups.has_next %}
+                        <li><a href="?page={{groups.next_page_number}}">{{groups.next_page_number}}</a></li>
+                        <li><a href="?page={{groups.next_page_number}}">&#8250;</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                {% endif %}
+                <!-- end Groups table -->
+            </div>
+        </div>
+    </div>
+    <!-- end main container -->
+    <!-- Footer -->
+            <footer class=".modal-footer">
+                Copyright &copy; 2014.Company name All rights reserved.
+            </footer> 
+    <!-- End Footer -->
+
+</body>
+</html>
