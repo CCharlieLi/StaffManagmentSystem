@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "include.html" %}
+    <link href="/static/css/lib/font-awesome.css" type="text/css" rel="stylesheet" />
+    
+    <!-- this page specific styles -->
+    <link rel="stylesheet" href="/static/css/compiled/user-list.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/static/css/compiled/new-user.css" type="text/css" media="screen" />
+    
+    <!-- dialog -->
+    <script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/jui/jquery.ui.css" media="screen" />
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="/static/js/score-dialog.js"></script>
+</head>
+<body>
+
+    {% include "navbar.html" %}
+
+    {% include "sidebar.html" %}
+
+	<!-- main container -->
+    <div class="content">
+        
+        {% include "sideChanger.html" %}
+        
+        <div class="container-fluid">
+            <div id="pad-wrapper" class="users-list">
+                <div class="row-fluid header">
+                    <h3>Score</h3>
+                    <div class="span10 pull-right">
+                        <input type="text" id="searchtext" class="span5 search" placeholder="Type a user's ID..." onKeyDown="javascript:if (event.keyCode==13) search();" />
+                    </div>
+                    </div>
+                     <div id="mws-jui-dialog-edit">
+                        {%  include "score/edit-score.html" %}
+                    </div>
+                </div>
+
+                <!-- User table -->
+                <div class="row-fluid table-list table">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="span2 sortable">
+                                    No.
+                                </th>
+                                <th class="span3 sortable">
+                                    <span class="line"></span>User ID
+                                </th>
+                                <th class="span3 sortable">
+                                    <span class="line"></span>User Name
+                                </th>
+                                <th class="span3 sortable">
+                                    <span class="line"></span>Group Name
+                                </th>
+                                <th class="span3 sortable">
+                                    <span class="line"></span>Score
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <!-- row -->
+                        {%  for user in users %}
+                        <tr class="first">
+                            <td>
+                                {{forloop.counter}}
+                            </td>
+                            <td>
+                                <a href="user-profile.html" class="name">{{user.UserID}}</a>
+                            </td>
+                            <td>
+                                <a class="name">{{user.UserName}}</a>
+                                <span class="subtext"><br/>Level:  {{user.Levelname}}</span>
+                            </td>
+                            <td>
+                                <a href="user-profile.html" class="name">{{user.GroupName}}</a>
+                            </td>
+                            <td>
+                                <a class="name">{{user.Score}}</a>
+                            </td>
+                            <td class="align-right">
+                                <ul class="actions">
+                                    <li><i class="table-edit mws-jui-dialog-mdl-btn-edit" onclick=changeID({{user.id}}) ></i></li>
+                                 </ul>
+                            </td>
+
+                        </tr>
+                        {%  endfor %}
+                        
+                        </tbody>
+                    </table>
+                </div>
+                {% if users.object_list and users.paginator.num_pages > 1 %}
+                <div class="pagination pull-right">
+                    <ul>
+                        {% if users.has_previous %}
+                        <li><a href="?page={{users.previous_page_number}}">&#8249;</a></li>
+                        <li><a href="?page={{users.previous_page_number}}">{{users.previous_page_number}}</a></li>
+                        {% endif %}
+
+                        <li><a class="active" href="?page={{blogs.number}}">{{users.number}}</a></li>
+
+                        {% if users.has_next %}
+                        <li><a href="?page={{users.next_page_number}}">{{users.next_page_number}}</a></li>
+                        <li><a href="?page={{users.next_page_number}}">&#8250;</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                {% endif %}
+                <!-- end User table -->
+            </div>
+        </div>
+    </div>
+    <!-- end main container -->
+
+</body>
+</html>

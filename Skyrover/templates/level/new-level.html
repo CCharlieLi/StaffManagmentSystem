@@ -1,0 +1,16 @@
+                    <div class="span9 with-sidebar">
+                        <div class="container">
+                            <form class="new_user_form inline-input" action="{% url 'addlevel' %}" method="post"  />
+                            {% csrf_token %} 
+                                <div class="span5 field-box">
+                                    <label>Level Name:</label>
+                                    <input  name="levelname" class="span5" type="text" value="" />
+                                </div>
+                               
+                                <div class="span9  field-box actions pull-left">
+                                <br>
+                                    <input type="submit" class="btn-flat success" value="Create Level"  />
+                                </div>
+                            </form>
+                        </div>
+                        </div>

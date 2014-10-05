@@ -1,0 +1,21 @@
+                    <div class="span9 with-sidebar">
+                        <div class="container">
+                            <form class="new_user_form inline-input" action="{% url 'editscore' %}" method="post" />
+                            {% csrf_token %} 
+                                <div class="span5 field-box">
+                                    <label>User Name:</label>
+                                    <input id="form_ID" name="userid" type="hidden" value="" />
+                                    <input id="form_username" readonly="readonly"  name="username" class="span5" type="text" value="" />
+                                     <label>Score:</label>
+                                     <input id="form_scorenum" name="scorenum" class="span5" type="text" value="" />
+                                     <label>Event:</label>
+                                     <input id="form_event" name="event" class="span5" type="text" value="" />
+                                </div>
+                                
+                                <div class="span9  field-box actions pull-left">
+                                <br>
+                                    <input type="submit" class="btn-flat success" value="Done" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>

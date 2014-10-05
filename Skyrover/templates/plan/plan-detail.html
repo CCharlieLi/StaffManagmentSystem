@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "include.html" %}
+    <!-- libraries -->
+    <link href="/static/css/lib/font-awesome.css" type="text/css" rel="stylesheet" />
+
+    <!-- this page specific styles -->
+    <link rel="stylesheet" href="/static/css/compiled/user-profile.css" type="text/css" media="screen" />
+
+</head>
+<body>
+
+   {% include "navbar.html" %}
+
+    {% include "sidebar.html" %}
+
+
+    <!-- main container -->
+    <div class="content">
+        
+        {% include "sideChanger.html" %}
+        
+        <div class="container-fluid">
+            <div id="pad-wrapper" class="user-profile">
+                <!-- header -->
+                <div class="row-fluid header">
+                    <div class="span8">
+                        <h3 class="name">{{detail.plantitle}}</h3>
+                        <span class="area">Date: {{detail.Datetime}} <br/> Publisher: {{detail.UserName}}<br/> Plan of: {{detail.planlevel}} <br/> Progress: {{detail.Progress}}%</span>
+                    </div>
+                    <a class="btn-flat icon pull-right delete-user" href="/manage/delplan?planid={{detail.id}}" data-toggle="tooltip" title="Delete plan" data-placement="top">
+                        <i class="icon-trash"></i>
+                    </a>
+                     <a class="btn-flat icon large pull-right edit" href="/manage/editplan?planid={{detail.id}}">
+                        Edit this plan
+                    </a>
+                </div>
+
+                <div class="row-fluid profile">
+                    <!-- bio, new note & orders column -->
+                    <div class="span9 bio">
+                        <div class="profile-box">
+                            <!-- biography -->
+                            <div class="span12 section">
+                                {{detail.Content|safe}}
+                            </div>
+
+                          
+                        </div>
+                    </div>
+
+                    <!-- side address column -->
+                    <div class="span3 address pull-right">
+                        <h6>Recent plans</h6>
+                        <ul>
+                           {% for pl in plans %}
+                             <li class="ico-li">
+                                <i class="ico-mail"></i>
+                                <a href="/manage/plandetail?planid={{pl.id}}">{{pl.Datetime}}-{{pl.plantitle}}</a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end main container -->
+
+</body>
+</html>
