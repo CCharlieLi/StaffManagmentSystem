@@ -1,13 +1,1 @@
-
-
-
-Requirment:Django 1.8 ,PostgreSQL 9.3
-
-
-
-
-
-
-
-
-
+Requirement:  Django 1.8 , PostgreSQL 9.3
