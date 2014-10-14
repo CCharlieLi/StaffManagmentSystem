@@ -12,7 +12,16 @@
                 </a>
             </li>   
 
-
+            <li>
+                <div class="pointer">
+                    <div class="arrow"></div>
+                    <div class="arrow_border"></div>
+                </div>
+                <a href="{% url 'index' %}">
+                    <i class="icon-calendar-empty"></i>
+                    <span>Announcement</span>
+                </a>
+            </li>  
 
             {% ifnotequal title "User"  %}
             {% ifnotequal title "Group" %}
@@ -83,6 +92,9 @@
                 </a>
                 <ul class="active submenu">
                     <li><a href="{% url 'planlist' %}">Team Plan</a></li>
+                    {% for group in groups  %}
+                    <li><a href="/manage/plangrouplist?planofgroup={{group.Name}}">{{group}}</a></li>
+                    {% endfor %}
                     <li><a href="{% url 'addplan' %}">New Plan</a></li>
                 </ul>
             </li>     
@@ -95,6 +107,9 @@
                 </a>
                 <ul class=" submenu">
                     <li><a href="{% url 'planlist' %}">Team Plan</a></li>
+                    {% for group in groups  %}
+                    <li><a href="/manage/plangrouplist?planofgroup={{group.Name}}">{{group}}</a></li>
+                    {% endfor %}
                     <li><a href="{% url 'addplan' %}">New Plan</a></li>
                 </ul>
             </li>  
