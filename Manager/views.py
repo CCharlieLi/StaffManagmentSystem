@@ -80,9 +80,12 @@ def logout(request):
 #########################   index   ######################
 @login_required
 def index(request):
-	username = request.user
-	title = "Dashboard"
-	return render_to_response('index.html',locals(),context_instance = RequestContext(request))
+    username = request.user
+    title = "Announcement"
+
+    groups = GroupName.objects.all()
+    return render_to_response('index.html',locals(),context_instance = RequestContext(request))
+
 
 def pageGenerator(request,objs):
     paginator = Paginator(objs,5)
@@ -121,6 +124,9 @@ def userlist(request):
         users = Employee.objects.all()
 
     users = pageGenerator(request,users)
+
+    groups = GroupName.objects.all()
+
     #print(users)
 
     return render_to_response('user/user-list.html',locals(),context_instance = RequestContext(request))
@@ -151,6 +157,12 @@ def adduser(request):
             GroupName=GroupName.objects.get(Name=u_groupname),
             Levelname=Level.objects.get(Levelname=u_levelname),
             Tel=u_tel,Email=u_email,QQ=u_qq,Other=u_introduce)
+
+        if u_levelname == "GroupLeader":
+            gl = GroupName.objects.get(Name=u_groupname)
+            gl.GroupMaster = u_username
+            gl.save()
+
         user = User.objects.create_user(username=u_userid,password=u_password)
         user.save()
         employee.save()
@@ -184,6 +196,12 @@ def edituser(request):
         #print (u_username,u_password)
 
         user.save()
+
+        print(user.Levelname.Levelname == "GroupLeader")
+        if user.Levelname.Levelname == "GroupLeader":
+            gl = GroupName.objects.get(Name=user.GroupName.Name)
+            gl.GroupMaster = user.UserName
+            gl.save()
         
         return HttpResponseRedirect('userlist',locals())
 
@@ -195,7 +213,8 @@ def edituser(request):
         levels = Level.objects.all()
         return render_to_response('user/edit-user.html',locals(),context_instance = RequestContext(request))
 
-    
+    groups = GroupName.objects.all()
+
     
     return HttpResponseRedirect('userlist',locals())
 
@@ -208,7 +227,7 @@ def deluser(request):
     error_message = ""
 
     if 'delUID' in request.GET:
-        uid = int(request.GET.get("delUID",'1'))
+        uid = request.GET.get("delUID",'1')
 
         User.objects.get(username=uid).delete()
         Employee.objects.get(UserID=uid).delete()
@@ -217,6 +236,9 @@ def deluser(request):
         error_message = "success"
         return HttpResponseRedirect('userlist',locals())
     
+
+    groups = GroupName.objects.all()
+
     return render_to_response('user/user-list.html',locals(),context_instance = RequestContext(request))
 
 ##################################################
@@ -248,14 +270,16 @@ def addgroup(request):
 
     if request.method == "POST":
         u_groupname = request.POST['groupname']
-        u_groupmaster = request.POST['groupmaster']
+        
         
         #print (u_groupname,u_groupmaster)
 
-        group = GroupName(Name=u_groupname,GroupMaster=u_groupmaster)
+        group = GroupName(Name=u_groupname)
         group.save()
         return HttpResponseRedirect('grouplist',locals())
-    
+
+    groups = GroupName.objects.all()
+
     return render_to_response('group/group-list.html',locals(),context_instance = RequestContext(request))
 
 @login_required
@@ -268,17 +292,19 @@ def editgroup(request):
     if request.method == "POST":
         u_groupid = request.POST['groupid']
         u_groupname = request.POST['groupname']
-        u_groupmaster = request.POST['groupmaster']
+        
         
         #print (u_groupid,u_groupname,u_groupmaster)
 
         group = GroupName.objects.get(id=u_groupid)
         group.Name = u_groupname
-        group.GroupMaster = u_groupmaster
+        
         #print (group.Name)
         group.save()
         return HttpResponseRedirect('grouplist',locals())
-    
+
+    groups = GroupName.objects.all()
+
     return render_to_response('group/group-list.html',locals(),context_instance = RequestContext(request))
 
 
@@ -298,7 +324,9 @@ def delgroup(request):
         #print (groupid)
         error_message = "success"
         return HttpResponseRedirect('grouplist',locals())
-    
+
+    groups = GroupName.objects.all()
+
     return render_to_response('group/group-list.html',locals(),context_instance = RequestContext(request))
 
 #####################  Team Plan  ######################
@@ -341,7 +369,9 @@ def plangrouplist(request):
     if plans.count() > 0:
         first_plan = plans[0]
     plans = pageGenerator(request,plans)
-     
+
+    groups = GroupName.objects.all()
+
     return render_to_response('plan/plan-group-list.html',locals(),context_instance = RequestContext(request))
 
 
@@ -377,7 +407,11 @@ def addplan(request):
         
         return HttpResponseRedirect('planlist',locals())
 
+
     #groups = GroupName.objects.all()
+
+    groups = GroupName.objects.all()
+
     #levels = Level.objects.all()
     
     return render_to_response('plan/new-plan.html',locals(),context_instance = RequestContext(request))
@@ -388,12 +422,23 @@ def plandetail(request):
     error_message = ""
     username = request.user
 
+    groups = GroupName.objects.all()
+
 
     if 'planid' not in request.GET:
         return HttpResponseRedirect('planlist',locals())
     else:
         detail = Plan.objects.get(id=int(request.GET.get("planid",'1')))
         plans = Plan.objects.filter(planlevel=detail.planlevel)
+
+        if detail.planlevel == "Team":
+            rel = "Team"
+            relates = GroupName.objects.all()
+        else:
+            rel = ""
+            relates = Employee.objects.filter(GroupName=Employee.objects.get(UserID=detail.UserID).GroupName)
+
+        groups = GroupName.objects.all()
 
         return render_to_response('plan/plan-detail.html',locals(),context_instance = RequestContext(request))
 
@@ -402,6 +447,10 @@ def editplan(request):
     title = "Plan"
     error_message = ""
     username = request.user
+
+
+    groups = GroupName.objects.all()
+
 
     if request.method == "POST":
         u_id = request.POST['id']
@@ -433,6 +482,9 @@ def delplan(request):
     title = "Level"
     error_message = ""
 
+    groups = GroupName.objects.all()
+
+
     if 'planid' not in request.GET:
         return HttpResponseRedirect('planlist',locals())
     else:
@@ -459,6 +511,8 @@ def levellist(request):
     users = Employee.objects.all()
     #print(groups)
 
+    groups = GroupName.objects.all()
+
     return render_to_response('level/level-list.html',locals(),context_instance = RequestContext(request))
 
 @login_required
@@ -467,6 +521,9 @@ def addlevel(request):
     username = request.user
     title = "Level"
     error_message = ""
+
+    groups = GroupName.objects.all()
+
 
     if request.method == "POST":
         u_levelname = request.POST['levelname']
@@ -485,6 +542,10 @@ def editlevel(request):
     username = request.user
     title = "Level"
     error_message = ""
+
+
+    groups = GroupName.objects.all()
+
 
     if request.method == "POST":
         u_levelid = request.POST['levelid']
@@ -507,6 +568,10 @@ def dellevel(request):
     username = request.user
     title = "Level"
     error_message = ""
+
+
+    groups = GroupName.objects.all()
+
 
     if 'dellevelID' in request.GET:
         levelid = int(request.GET.get("dellevelID",'1'))
@@ -537,6 +602,8 @@ def scorelist(request):
     users = pageGenerator(request,users)
     #print(users)
 
+    groups = GroupName.objects.all()
+
     return render_to_response('score/score-list.html',locals(),context_instance = RequestContext(request))
 
 
@@ -546,16 +613,22 @@ def editscore(request):
     title = "Score"
     error_message = ""
 
+
+    groups = GroupName.objects.all()
+
+
     if request.method == "POST":
         u_userid = request.POST['userid']
         u_scorenum = request.POST['scorenum']
+        u_spoint = request.POST['spoint']
         u_event = request.POST['event']
         #print (u_groupid,u_groupname,u_groupmaster)
 
         user = Employee.objects.get(id=u_userid)
         user.Score = u_scorenum
+        user.SalaryPoint = u_spoint
         user.save()
-        eventobj = Salary(UserID=user.UserID,Score=u_scorenum,Event=u_event)
+        eventobj = Salary(UserID=user.UserID,Score=u_scorenum,SalaryPoint=u_spoint,Event=u_event)
         eventobj.save()
         
         return HttpResponseRedirect('scorelist',locals())
@@ -568,6 +641,10 @@ def eventlist(request):
     title = "Score"
     error_message = ""
     username = request.user
+
+
+    groups = GroupName.objects.all()
+
 
     if 'SearchName' in request.GET:
         salarys = Salary.objects.filter(UserID=request.GET.get("SearchName",'1'))

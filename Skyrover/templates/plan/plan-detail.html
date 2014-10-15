@@ -46,20 +46,88 @@
                                 {{detail.Content|safe}}
                             </div>
 
-                          
+                            <h6>Recent plans</h6>
+                            <br />
+                            <!-- recent orders table -->
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="span2">
+                                            No.
+                                        </th>
+                                        <th class="span3">
+                                            <span class="line"></span>
+                                            Date
+                                        </th>
+                                        <th class="span3">
+                                            <span class="line"></span>
+                                            Title
+                                        </th>
+                                        <th class="span3">
+                                            <span class="line"></span>
+                                            Progress
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- row -->
+                                    {% for pl in plans %}
+                                    <tr>
+                                        <td>
+                                            {{forloop.counter}}
+                                        </td>
+                                        <td>
+                                            {{pl.Datetime}}
+                                        </td>
+                                        <td>
+                                            <a href="/manage/plandetail?planid={{pl.id}}">{{pl.plantitle}}</a>
+                                        </td>
+                                        <td>
+                                            {{pl.Progress}}%
+                                        </td>
+                                    </tr>
+                                    {%  endfor %}
+                                </tbody>
+                            </table>
+                             {% if plans.object_list and plans.paginator.num_pages > 1 %}
+                            <div class="pagination pull-right">
+                                <ul>
+                                    {% if plans.has_previous %}
+                                    <li><a href="?page={{plans.previous_page_number}}">&#8249;</a></li>
+                                    <li><a href="?page={{plans.previous_page_number}}">{{plans.previous_page_number}}</a></li>
+                                    {% endif %}
+
+                                    <li><a class="active" href="?page={{plans.number}}">{{plans.number}}</a></li>
+
+                                    {% if plans.has_next %}
+                                    <li><a href="?page={{plans.next_page_number}}">{{plans.next_page_number}}</a></li>
+                                    <li><a href="?page={{plans.next_page_number}}">&#8250;</a></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
 
                     <!-- side address column -->
                     <div class="span3 address pull-right">
-                        <h6>Recent plans</h6>
+                        <h6>Relates</h6>
                         <ul>
-                           {% for pl in plans %}
+                        {% ifequal rel "Team" %}
+                            {% for relate in relates %}
                              <li class="ico-li">
-                                <i class="ico-mail"></i>
-                                <a href="/manage/plandetail?planid={{pl.id}}">{{pl.Datetime}}-{{pl.plantitle}}</a>
+                                <i class="icon-group"></i>
+                                <a href="/manage/plangrouplist?planofgroup={{relate.Name}}">{{relate}}</a>
                             </li>
-                        {% endfor %}
+                            {% endfor %}
+                        {% else %}
+                            {% for relate in relates %}
+                             <li class="ico-li">
+                                <i class="icon-group"></i>
+                                <a href="/manage/plangrouplist?planof={{relate.UserID}}">{{relate.UserName}}</a>
+                            </li>
+                            {% endfor %}
+                        {% endifequal %}
                         </ul>
                     </div>
                 </div>

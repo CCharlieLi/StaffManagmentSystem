@@ -24,9 +24,9 @@
                     <i class="icon-chevron-down"></i>
                 </a>
                 <ul class="submenu">
-                    <li><a href="{% url 'userlist' %}">User list</a></li>
-                    <li><a href="{% url 'grouplist' %}">Group list</a></li>
-                    <li><a href="{% url 'levellist' %}">Level list</a></li>
+                    <li><a href="{% url 'userlist' %}">User</a></li>
+                    <li><a href="{% url 'grouplist' %}">Group</a></li>
+                    <li><a href="{% url 'levellist' %}">Level</a></li>
                 </ul>
             </li> 
             {% else %}
@@ -37,9 +37,9 @@
                     <i class="icon-chevron-down"></i>
                 </a>
                 <ul class="active submenu">
-                    <li><a href="{% url 'userlist' %}">User list</a></li>
-                    <li><a href="{% url 'grouplist' %}">Group list</a></li>
-                    <li><a href="{% url 'levellist' %}">Level list</a></li>
+                    <li><a href="{% url 'userlist' %}">User</a></li>
+                    <li><a href="{% url 'grouplist' %}">Group</a></li>
+                    <li><a href="{% url 'levellist' %}">Level</a></li>
                 </ul>
             </li>  
             {% endifnotequal %}
@@ -51,9 +51,9 @@
                     <i class="icon-chevron-down"></i>
                 </a>
                 <ul class="active submenu">
-                    <li><a href="{% url 'userlist' %}">User list</a></li>
-                    <li><a href="{% url 'grouplist' %}">Group list</a></li>
-                    <li><a href="{% url 'levellist' %}">Level list</a></li>
+                    <li><a href="{% url 'userlist' %}">User</a></li>
+                    <li><a href="{% url 'grouplist' %}">Group</a></li>
+                    <li><a href="{% url 'levellist' %}">Level</a></li>
                 </ul>
             </li>  
             {% endifnotequal %}
@@ -65,9 +65,9 @@
                     <i class="icon-chevron-down"></i>
                 </a>
                 <ul class="active submenu">
-                    <li><a href="{% url 'userlist' %}">User list</a></li>
-                    <li><a href="{% url 'grouplist' %}">Group list</a></li>
-                    <li><a href="{% url 'levellist' %}">Level list</a></li>
+                    <li><a href="{% url 'userlist' %}">User</a></li>
+                    <li><a href="{% url 'grouplist' %}">Group</a></li>
+                    <li><a href="{% url 'levellist' %}">Level</a></li>
                 </ul>
             </li>  
             {% endifnotequal %}
@@ -83,6 +83,10 @@
                 </a>
                 <ul class="active submenu">
                     <li><a href="{% url 'planlist' %}">Team Plan</a></li>
+
+                    {% for group in groups  %}
+                    <li><a href="/manage/plangrouplist?planofgroup={{group.Name}}">{{group}}</a></li>
+                    {% endfor %}
                     <li><a href="{% url 'addplan' %}">New Plan</a></li>
                 </ul>
             </li>     
@@ -95,6 +99,10 @@
                 </a>
                 <ul class=" submenu">
                     <li><a href="{% url 'planlist' %}">Team Plan</a></li>
+
+                    {% for group in groups  %}
+                    <li><a href="/manage/plangrouplist?planofgroup={{group.Name}}">{{group}}</a></li>
+                    {% endfor %}
                     <li><a href="{% url 'addplan' %}">New Plan</a></li>
                 </ul>
             </li>  
@@ -108,8 +116,8 @@
                     <i class="icon-chevron-down"></i>
                 </a>
                 <ul class="active submenu">
-                    <li><a href="{% url 'scorelist' %}">Score list</a></li>
-                    <li><a href="{% url 'eventlist' %}">Event list</a></li>
+                    <li><a href="{% url 'scorelist' %}">Score</a></li>
+                    <li><a href="{% url 'eventlist' %}">Event</a></li>
                 </ul>
             </li>  
             {% else %}
@@ -120,8 +128,8 @@
                     <i class="icon-chevron-down"></i>
                 </a>
                 <ul class="submenu">
-                    <li><a href="{% url 'scorelist' %}">Score list</a></li>
-                    <li><a href="{% url 'eventlist' %}">Event list</a></li>
+                    <li><a href="{% url 'scorelist' %}">Score</a></li>
+                    <li><a href="{% url 'eventlist' %}">Event</a></li>
                 </ul>
             </li> 
             {% endifequal %}

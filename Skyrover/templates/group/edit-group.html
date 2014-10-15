@@ -7,17 +7,7 @@
                                     <input id="form_ID" name="groupid" type="hidden" value="" />
                                     <input id="form_groupname" name="groupname" class="span5" type="text" value="" />
                                 </div>
-                                <div class="span9 field-box">
-                                    <label>Group Master:</label>
-                                    <div class="ui-select span5">
-                                        <select name="groupmaster">
-                                            <option id="form_groupmaster" value="" selected=""></option>
-                                        {% for user in users %}
-                                            <option value="{{user.UserID}}" />{{user.UserID}}
-                                        {% endfor %}
-                                        </select>
-                                    </div>
-                                </div>
+                               
                                 <div class="span9  field-box actions pull-left">
                                 <br>
                                     <input type="submit" class="btn-flat success" value="Done" />

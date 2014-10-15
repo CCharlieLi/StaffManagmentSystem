@@ -29,6 +29,7 @@ class Employee(models.Model):
 	QQ = models.CharField(max_length=20,null=True,blank=True)
 	Other = models.TextField(null=True,blank=True)
 	
+	SalaryPoint = models.CharField(default="0",max_length=5,null=True,blank=True)
 	Score = models.CharField(default="0",max_length=5,null=True,blank=True)
 	def __str__(self):
 		return self.UserID
@@ -76,6 +77,7 @@ class Calendar(models.Model):
 class Salary(models.Model):
 	UserID = models.CharField(max_length=20)
 	Score = models.CharField(default="0",max_length=5,null=True,blank=True)
+	SalaryPoint = models.CharField(default="0",max_length=5,null=True,blank=True)
 	Event = models.CharField(max_length=400)
 	def __str__(self):
 		return self.userID

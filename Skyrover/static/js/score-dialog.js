@@ -26,12 +26,14 @@
             $("#form_ID").attr("value","");
             $("#form_username").attr("value","");
             $("#form_scorenum").attr("value","");
+            $("#form_spoint").attr("value","");
             editid = eid
             $.getJSON('/API/REST/employees/'+editid,function(result,status){
                 //alert(result.Name);
                 $("#form_ID").attr("value",editid);
                 $("#form_username").attr("value",result.UserName);
                 $("#form_scorenum").attr("value",result.Score);
+                $("#form_spoint").attr("value",result.SalaryPoint);
                 //levelmaster = result.levelMaster;
             });
             //alert(editid)
