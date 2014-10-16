@@ -29,7 +29,13 @@ urlpatterns = [
     url(r'^manage/login$','Manager.views.login',name="login"),
     url(r'^manage/logout$','Manager.views.logout',name="logout"),
     url(r'^manage/index$','Manager.views.index',name="index"),
-    
+
+    #announce
+    url(r'^manage/addannounce$','Manager.views.addannounce',name="addannounce"),
+    url(r'^manage/editannounce$','Manager.views.editannounce',name="editannounce"),
+    url(r'^manage/delannounce$','Manager.views.delannounce',name="delannounce"),
+    url(r'^manage/readannounce$','Manager.views.readannounce',name="readannounce"),
+
     #user
     url(r'^manage/userlist$','Manager.views.userlist',name="userlist"),
     url(r'^manage/adduser$','Manager.views.adduser',name="adduser"),

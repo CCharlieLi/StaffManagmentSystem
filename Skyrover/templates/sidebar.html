@@ -8,7 +8,7 @@
                 </div>
                 <a href="{% url 'index' %}">
                     <i class="icon-home"></i>
-                    <span>Home</span>
+                    <span>Announcement</span>
                 </a>
             </li>   
 
@@ -87,7 +87,7 @@
                     {% for group in groups  %}
                     <li><a href="/manage/plangrouplist?planofgroup={{group.Name}}">{{group}}</a></li>
                     {% endfor %}
-                    <li><a href="{% url 'addplan' %}">New Plan</a></li>
+
                 </ul>
             </li>     
             {% else %}
@@ -103,7 +103,7 @@
                     {% for group in groups  %}
                     <li><a href="/manage/plangrouplist?planofgroup={{group.Name}}">{{group}}</a></li>
                     {% endfor %}
-                    <li><a href="{% url 'addplan' %}">New Plan</a></li>
+
                 </ul>
             </li>  
             {% endifequal %}

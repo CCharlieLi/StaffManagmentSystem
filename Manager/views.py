@@ -76,17 +76,6 @@ def logout(request):
     return render_to_response('login.html',locals(),context_instance = RequestContext(request))
 
 ######################################################
-
-#########################   index   ######################
-@login_required
-def index(request):
-    username = request.user
-    title = "Announcement"
-
-    groups = GroupName.objects.all()
-    return render_to_response('index.html',locals(),context_instance = RequestContext(request))
-
-
 def pageGenerator(request,objs):
     paginator = Paginator(objs,5)
     try:
@@ -98,6 +87,108 @@ def pageGenerator(request,objs):
     except (InvalidPage,EmptyPage):
         objs = paginator.page(paginator.num_pages)
     return objs 
+
+#########################   index   ######################
+@login_required
+def index(request):
+    username = request.user
+    title = "Announcement"
+
+    announces = Announcement.objects.all()
+    if announces.count() > 0:
+        first_announce = announces[0]
+    announces = pageGenerator(request,announces)
+    
+    groups = GroupName.objects.all()
+
+    if 'annid' in request.GET:
+        first_announce = Announcement.objects.get(id=int(request.GET.get("annid",'1')))
+
+    #print(request.get_full_path())
+    #print(request.META.get('HTTP_REFERER', '/'))
+    return render_to_response('index.html',locals(),context_instance = RequestContext(request))
+
+
+def addannounce(request):
+    title = "Announcement"
+    error_message = ""
+    username = request.user
+
+    groups = GroupName.objects.all()
+
+    if request.method == "POST":
+        u_userid = username
+        u_username = Employee.objects.get(UserID=username)
+        u_datetime = request.POST['datetime']
+        u_title = request.POST['title']
+        u_content = request.POST['content']
+
+        #############################
+        namelist = ""
+        for each in Employee.objects.all():
+            namelist = namelist + each.UserName + ","
+
+        print(namelist)
+
+        ann = Announcement(Publisher=u_username,Title=u_title,
+            Datetime=u_datetime,Content=u_content,Namelist=namelist)
+        ann.save()
+        
+        return HttpResponseRedirect('index',locals())
+
+    return render_to_response('Announce/new-announce.html',locals(),context_instance = RequestContext(request))
+
+def editannounce(request):
+    title = "Announcement"
+    error_message = ""
+    username = request.user
+
+    groups = GroupName.objects.all()
+
+    if request.method == "POST":
+        u_id = request.POST['id']
+        u_datetime = request.POST['datetime']
+        u_title = request.POST['title']
+        u_content = request.POST['content']
+
+        #############################
+
+        ann = Announcement.objects.get(id=u_id)
+        ann.Datetime = u_datetime
+        ann.Title = u_title
+        ann.Content = u_content
+        ann.save()
+        
+        return HttpResponseRedirect('index',locals())
+
+    if 'annid' in request.GET:
+        announce = Announcement.objects.get(id=int(request.GET.get("annid",'1')))
+        return render_to_response('Announce/edit-announce.html',locals(),context_instance = RequestContext(request))
+    else:
+        return HttpResponseRedirect('index',locals())
+
+
+def delannounce(request):
+    if 'annid' in request.GET:
+        Announcement.objects.get(id=int(request.GET.get("annid",'1'))).delete()
+    return HttpResponseRedirect('index',locals())
+
+def readannounce(request):
+    username = request.user
+
+    if 'annid' in request.GET:
+        announce = Announcement.objects.get(id=int(request.GET.get("annid",'1')))
+        namelist = ""
+        for each in announce.Namelist.split(",")[:-1]:
+            if each == Employee.objects.get(UserID=username).UserName:
+                pass
+            else:
+                namelist = namelist + each + ","
+
+        announce.Namelist = namelist
+        announce.save()
+        
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 ##########################################################
 
@@ -448,9 +539,7 @@ def editplan(request):
     error_message = ""
     username = request.user
 
-
     groups = GroupName.objects.all()
-
 
     if request.method == "POST":
         u_id = request.POST['id']

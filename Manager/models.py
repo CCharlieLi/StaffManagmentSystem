@@ -39,8 +39,9 @@ class Employee(models.Model):
 class Announcement(models.Model):
 	Title = models.CharField(max_length=100)
 	Publisher = models.ForeignKey(Employee,blank=True)
-	Datetime = models.DateField()
+	Datetime = models.CharField(max_length=20)
 	Content = models.TextField(blank=True)
+	Namelist = models.TextField(default="",blank=True)
 	def __str__(self):
 		return self.Title
 	class Meta:#organize meta data when read from db

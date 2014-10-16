@@ -29,11 +29,14 @@
                         <h3 class="name">{{detail.plantitle}}</h3>
                         <span class="area">Date: {{detail.Datetime}} <br/> Publisher: {{detail.UserName}}<br/> Plan of: {{detail.planlevel}} <br/> Progress: {{detail.Progress}}%</span>
                     </div>
-                    <a class="btn-flat icon pull-right delete-user" href="/manage/delplan?planid={{detail.id}}" data-toggle="tooltip" title="Delete plan" data-placement="top">
+                    <a class="btn-flat icon delete-user" href="/manage/delplan?planid={{detail.id}}" data-toggle="tooltip" title="Delete plan" data-placement="top">
                         <i class="icon-trash"></i>
                     </a>
-                     <a class="btn-flat icon large pull-right edit" href="/manage/editplan?planid={{detail.id}}">
+                     <a class="btn-flat icon large  edit" href="/manage/editplan?planid={{detail.id}}">
                         Edit this plan
+                    </a>
+                    <a class="btn-flat .success" href="{% url 'addplan' %}">
+                        New plan
                     </a>
                 </div>
 
