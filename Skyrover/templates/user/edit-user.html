@@ -7,6 +7,22 @@
     
     <!-- this page specific styles -->
     <link rel="stylesheet" href="/static/css/compiled/new-user.css" type="text/css" media="screen" />
+
+    <script charset="utf-8" src="/static/kindeditor/kindeditor.js"></script>
+    <script charset="utf-8" src="/static/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript">
+    var editor ;
+    KindEditor.ready(function(K) {
+        var options = {
+            cssPath : ('/static/kindeditor/themes/default/default.css',
+                       '/static/kindeditor/plugins/code/prettify.css'),
+            width : '680px',
+            height : '400px',
+            filterMode : true
+       };
+        editor = K.create('textarea[name="introduce"]', options);
+    });
+    </script>
 </head>
 <body>
     {% include "navbar.html" %}
@@ -15,9 +31,6 @@
 
     <!-- main container -->
     <div class="content">
-        
-       {% include "sideChanger.html" %}
-        
         <div class="container-fluid">
             <div id="pad-wrapper" class="new-user">
                 <div class="row-fluid header">

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    
+
     {% include "include.html" %}
     <!-- libraries -->
     <link href="/static/css/lib/font-awesome.css" type="text/css" rel="stylesheet" />
-    
+
     <!-- this page specific styles -->
     <link rel="stylesheet" href="/static/css/compiled/user-list.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="/static/css/compiled/new-user.css" type="text/css" media="screen" />
-    
+
     <!-- dialog -->
     <script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/jui/jquery.ui.css" media="screen" />
@@ -25,16 +25,13 @@
 
 	<!-- main container -->
     <div class="content">
-        
-        {% include "sideChanger.html" %}
-        
         <div class="container-fluid">
             <div id="pad-wrapper" class="users-list">
                 <div class="row-fluid header">
                     <h3>Level</h3>
                     <div class="span10 pull-right">
                         <input type="text" id="searchtext" class="span5 search" placeholder="Type a level's name..." onKeyDown="javascript:if (event.keyCode==13) search();" />
-                        
+
 
                         <input type="button" class="btn-flat success pull-right mws-jui-dialog-mdl-btn-new" value="+ NEW LEVEL" />
                             <div id="mws-jui-dialog-new">
@@ -70,7 +67,7 @@
                                 {{forloop.counter}}
                             </td>
                             <td>
-                                <a href="user-profile.html" class="name">{{level.Levelname}}</a>
+                                <a class="name">{{level.Levelname}}</a>
                             </td>
                             <td>
                                 {{ level.employee_set.count }}

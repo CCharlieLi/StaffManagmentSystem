@@ -30,11 +30,17 @@ urlpatterns = [
     url(r'^manage/logout$','Manager.views.logout',name="logout"),
     url(r'^manage/index$','Manager.views.index',name="index"),
 
+    #notification
+    url(r'^manage/clicknotification$','Manager.views.clicknotification',name="clicknotification"),
+
     #announce
     url(r'^manage/addannounce$','Manager.views.addannounce',name="addannounce"),
     url(r'^manage/editannounce$','Manager.views.editannounce',name="editannounce"),
     url(r'^manage/delannounce$','Manager.views.delannounce',name="delannounce"),
     url(r'^manage/readannounce$','Manager.views.readannounce',name="readannounce"),
+
+    #profile
+    url(r'^manage/profilepage$','Manager.views.profilepage',name="profilepage"),
 
     #user
     url(r'^manage/userlist$','Manager.views.userlist',name="userlist"),

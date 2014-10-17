@@ -3,11 +3,11 @@
 <head>
     {% include "include.html" %}
     <link href="/static/css/lib/font-awesome.css" type="text/css" rel="stylesheet" />
-    
+
     <!-- this page specific styles -->
     <link rel="stylesheet" href="/static/css/compiled/user-list.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="/static/css/compiled/new-user.css" type="text/css" media="screen" />
-    
+
     <!-- dialog -->
     <script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/jui/jquery.ui.css" media="screen" />
@@ -23,9 +23,6 @@
 
 	<!-- main container -->
     <div class="content">
-        
-        {% include "sideChanger.html" %}
-        
         <div class="container-fluid">
             <div id="pad-wrapper" class="users-list">
                 <div class="row-fluid header">
@@ -72,14 +69,14 @@
                                 {{forloop.counter}}
                             </td>
                             <td>
-                                <a href="user-profile.html" class="name">{{user.UserID}}</a>
+                                <a href="/manage/profilepage?uid={{user.UserID}}" class="name">{{user.UserID}}</a>
                             </td>
                             <td>
                                 <a class="name">{{user.UserName}}</a>
                                 <span class="subtext"><br/>Level:  {{user.Levelname}}</span>
                             </td>
                             <td>
-                                <a href="user-profile.html" class="name">{{user.GroupName}}</a>
+                                <a href="/manage/plangrouplist?planofgroup={{user.GroupName}}" class="name">{{user.GroupName}}</a>
                             </td>
                             <td>
                                 <a class="name">{{user.Score}}</a>
@@ -95,7 +92,7 @@
 
                         </tr>
                         {%  endfor %}
-                        
+
                         </tbody>
                     </table>
                 </div>

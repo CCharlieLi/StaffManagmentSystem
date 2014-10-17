@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    
+
     {% include "include.html" %}
     <!-- libraries -->
     <link href="/static/css/lib/font-awesome.css" type="text/css" rel="stylesheet" />
-    
+
     <!-- this page specific styles -->
     <link rel="stylesheet" href="/static/css/compiled/user-list.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="/static/css/compiled/new-user.css" type="text/css" media="screen" />
-    
+
     <!-- dialog -->
     <script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/jui/jquery.ui.css" media="screen" />
@@ -25,16 +25,13 @@
 
 	<!-- main container -->
     <div class="content">
-        
-        {% include "sideChanger.html" %}
-        
         <div class="container-fluid">
             <div id="pad-wrapper" class="users-list">
                 <div class="row-fluid header">
                     <h3>Group</h3>
                     <div class="span10 pull-right">
                         <input type="text" id="searchtext" class="span5 search" placeholder="Type a group's name..." onKeyDown="javascript:if (event.keyCode==13) search();" />
-                        
+
                         <!-- custom popup filter -->
                         <!-- styles are located in css/elements.css -->
                         <!-- script that enables this dropdown is located in js/theme.js -->
@@ -43,7 +40,7 @@
                             <div class="head" data-toggle="tooltip" title="Click me!">
                                 Filter users
                                 <i class="arrow-down"></i>
-                            </div>  
+                            </div>
                             <div class="dialog">
                                 <div class="pointer">
                                     <div class="arrow"></div>
@@ -109,7 +106,7 @@
                                 {{forloop.counter}}
                             </td>
                             <td>
-                                <a href="user-profile.html" class="name">{{group.Name}}</a>
+                                <a href="/manage/plangrouplist?planofgroup={{group.Name}}" class="name">{{group.Name}}</a>
                                 <span class="subtext">leader:  {{group.GroupMaster}}</span>
                             </td>
                             <td>
@@ -152,7 +149,7 @@
     <!-- Footer -->
             <footer class=".modal-footer">
                 Copyright &copy; 2014.Company name All rights reserved.
-            </footer> 
+            </footer>
     <!-- End Footer -->
 
 </body>

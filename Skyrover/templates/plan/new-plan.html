@@ -4,15 +4,15 @@
     {% include "include.html" %}
     <!-- libraries -->
     <link rel="stylesheet" type="text/css" href="/static/css/lib/font-awesome.css" />
-    
+
     <!-- this page specific styles -->
     <link rel="stylesheet" href="/static/css/compiled/new-user.css" type="text/css" media="screen" />
     <link href="/static/css/lib/bootstrap.datepicker.css" type="text/css" rel="stylesheet" />
-  
+
 
     <script src="/static/js/bootstrap.datepicker.js"></script>
     <script src="/static/js/jquery.knob.js"></script>
-     <script type="text/javascript">
+    <script type="text/javascript">
         $(function () {
             // datepicker plugin
             $('.datepicker').datepicker().on('changeDate', function (ev) {
@@ -28,18 +28,18 @@
     <script charset="utf-8" src="/static/kindeditor/kindeditor.js"></script>
     <script charset="utf-8" src="/static/kindeditor/lang/zh_CN.js"></script>
     <script type="text/javascript">
-    var editor ; 
-    KindEditor.ready(function(K) { 
-        var options = { 
-            cssPath : ('/static/kindeditor/themes/default/default.css', 
+    var editor ;
+    KindEditor.ready(function(K) {
+        var options = {
+            cssPath : ('/static/kindeditor/themes/default/default.css',
                        '/static/kindeditor/plugins/code/prettify.css'),
-            width : '680px', 
-            height : '400px', 
-            filterMode : true 
-       }; 
-        editor = K.create('textarea[name="content"]', options); 
-    });                     
-    </script>   
+            width : '680px',
+            height : '400px',
+            filterMode : true
+       };
+        editor = K.create('textarea[name="content"]', options);
+    });
+    </script>
 </head>
 <body>
     {% include "navbar.html" %}
@@ -48,9 +48,6 @@
 
     <!-- main container -->
     <div class="content">
-        
-       {% include "sideChanger.html" %}
-        
         <div class="container-fluid">
             <div id="pad-wrapper" class="new-user">
                 <div class="row-fluid header">
@@ -60,7 +57,7 @@
                 <div class="row-fluid form-wrapper">
                    <div class="container">
                             <form class="new_user_form inline-input" action="{% url 'addplan' %}" method="post" />
-                            {% csrf_token %} 
+                            {% csrf_token %}
                                 <div class="span12 field-box">
                                     <label>Title:</label>
                                     <input name="plantitle" class="span5" type="text" />
@@ -84,7 +81,7 @@
                                     <label>Content:</label>
                                     <textarea name="content" class="span9"></textarea>
                                 </div>
-                                
+
                                 <div class="span11 field-box actions">
                                     <input type="submit" class="btn-glow success" value="Create a plan" />
                                 </div>

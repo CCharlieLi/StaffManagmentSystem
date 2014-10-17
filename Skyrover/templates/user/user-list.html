@@ -4,7 +4,7 @@
     {% include "include.html" %}
     <!-- libraries -->
     <link rel="stylesheet" type="text/css" href="/static/css/lib/font-awesome.css" />
-    
+
     <!-- this page specific styles -->
     <link rel="stylesheet" href="/static/css/compiled/user-list.css" type="text/css" media="screen" />
     <script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
@@ -18,9 +18,6 @@
 
 	<!-- main container -->
     <div class="content">
-        
-        {% include "sideChanger.html" %}
-        
         <div class="container-fluid">
             <div id="pad-wrapper" class="users-list">
                 <div class="row-fluid header">
@@ -30,7 +27,7 @@
                         <script type="text/javascript">
                         function search()
                         {
-                           window.location="/manage/userlist?SearchName="+$("#searchtext").attr('value'); 
+                           window.location="/manage/userlist?SearchName="+$("#searchtext").attr('value');
                         };
                         </script>
                         <!-- custom popup filter -->
@@ -40,7 +37,7 @@
                             <div class="head" data-toggle="tooltip" title="Click me!">
                                 Filter users
                                 <i class="arrow-down"></i>
-                            </div>  
+                            </div>
                             <div class="dialog">
                                 <div class="pointer">
                                     <div class="arrow"></div>
@@ -81,13 +78,13 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th class="span2 sortable">
+                                <th class="span1 sortable">
                                     No.
                                 </th>
                                 <th class="span2 sortable">
                                     <span class="line"></span>User ID
                                 </th>
-                                <th class="span2 sortable">
+                                <th class="span3 sortable">
                                     <span class="line"></span>User Name
                                 </th>
                                 <th class="span2 sortable">
@@ -96,8 +93,11 @@
                                 <th class="span2 sortable">
                                     <span class="line"></span>Phone
                                 </th>
-                                <th class="span3 sortable">
+                                <th class="span2 sortable">
                                     <span class="line"></span>Email
+                                </th>
+                                <th class="span3 sortable">
+                                    <span class="line"></span>QQ
                                 </th>
                             </tr>
                         </thead>
@@ -109,20 +109,23 @@
                                 {{forloop.counter}}
                             </td>
                             <td>
-                                <a href="user-profile.html" class="name">{{user.UserID}}</a>
+                                <a href="/manage/profilepage?uid={{user.UserID}}" class="name">{{user.UserID}}</a>
                             </td>
                             <td>
                                 <a class="name">{{user.UserName}}</a>
                                 <span class="subtext"><br/>Level:  {{user.Levelname}}</span>
                             </td>
                             <td>
-                                <a href="user-profile.html" class="name">{{user.GroupName}}</a>
+                                <a href="/manage/plangrouplist?planofgroup={{user.GroupName}}" class="name">{{user.GroupName}}</a>
                             </td>
                             <td>
                                 <a class="name">{{user.Tel}}</a>
                             </td>
                             <td>
                                 <a class="name">{{user.Email}}</a>
+                            </td>
+                            <td>
+                                <a class="name">{{user.QQ}}</a>
                             </td>
                             <td class="align-right">
                                 <ul class="actions">
@@ -133,7 +136,7 @@
 
                         </tr>
                         {%  endfor %}
-                        
+
                         </tbody>
                     </table>
                 </div>

@@ -9,7 +9,14 @@ class GroupName(models.Model):
 		return self.Name
 	class Meta:#organize meta data when read from db
 		ordering = ['id']
-		
+
+class Notification(models.Model):
+  Type = models.CharField(max_length=20)
+  ToUser = models.CharField(max_length=20)
+  Content = models.TextField(blank=True)
+  class Meta:#organize meta data when read from db
+    ordering = ['-id']
+
 class Level(models.Model):
 	Levelname = models.CharField(max_length=20)
 	def __str__(self):
@@ -20,15 +27,15 @@ class Level(models.Model):
 class Employee(models.Model):
 	UserID = models.CharField(max_length=20)
 	#basic information
-	UserName = models.CharField(max_length=20)
+	UserName = models.CharField(default="",max_length=20)
 	Picture = models.ImageField(upload_to = 'head',null=True,blank=True)
 	Levelname = models.ForeignKey(Level,null=True)
 	GroupName = models.ForeignKey(GroupName,null=True)
-	Tel = models.CharField(max_length=11,null=True,blank=True)
-	Email = models.EmailField(null=True,blank=True)
-	QQ = models.CharField(max_length=20,null=True,blank=True)
+	Tel = models.CharField(default="",max_length=11,null=True,blank=True)
+	Email = models.EmailField(default="",null=True,blank=True)
+	QQ = models.CharField(default="",max_length=20,null=True,blank=True)
 	Other = models.TextField(null=True,blank=True)
-	
+
 	SalaryPoint = models.CharField(default="0",max_length=5,null=True,blank=True)
 	Score = models.CharField(default="0",max_length=5,null=True,blank=True)
 	def __str__(self):
@@ -45,7 +52,7 @@ class Announcement(models.Model):
 	def __str__(self):
 		return self.Title
 	class Meta:#organize meta data when read from db
-		ordering = ['id']
+		ordering = ['-id']
 
 
 class Plan(models.Model):
@@ -84,4 +91,3 @@ class Salary(models.Model):
 		return self.userID
 	class Meta:#organize meta data when read from db
 		ordering = ['-id']
-		

@@ -17,9 +17,6 @@
 
 	<!-- main container -->
     <div class="content">
-        
-        {% include "sideChanger.html" %}
-        
         <div class="container-fluid">
             <div id="pad-wrapper" class="users-list">
                 <div class="row-fluid header">
@@ -67,7 +64,7 @@
                                 {{forloop.counter}}
                             </td>
                             <td>
-                                <a href="user-profile.html" class="name">{{salary.UserID}}</a>
+                                <a href="/manage/profilepage?uid={{salary.UserID}}" class="name">{{salary.UserID}}</a>
                             </td>
                             <td>
                                 <a class="name">{{salary.Score}}</a>
