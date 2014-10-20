@@ -7,7 +7,7 @@
 
     <!-- this page specific styles -->
     <link rel="stylesheet" href="/static/css/compiled/user-profile.css" type="text/css" media="screen" />
-
+    <script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
 </head>
 <body>
 
@@ -107,11 +107,18 @@
                     <!-- side address column -->
                     <div class="span3 address pull-right">
                         <h6>Staff</h6>
+                        <input type="text" id="searchtext" class="span10 search" placeholder="Type a name..." onKeyDown="javascript:if (event.keyCode==13) search();" />
+                        <script type="text/javascript">
+                            function search()
+                            {
+                               window.location="/manage/plangrouplist?planofgroup={{first_plan.planlevel}}&SearchName="+$("#searchtext").attr('value');
+                            };
+                        </script>
                         <ul>
                         {% for mem in members %}
-                             <li class="ico-li">
+                            <li class="ico-li">
                                 <i class="icon-user"></i>
-                                <a href="/manage/plangrouplist?planof={{mem.UserID}}">{{mem.UserName}}</a>
+                                <a href="/manage/plangrouplist?planofgroup={{mem.UserID}}">{{mem.UserName}}</a>
                             </li>
                         {% endfor %}
                         </ul>

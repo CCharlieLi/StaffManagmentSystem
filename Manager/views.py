@@ -101,14 +101,15 @@ def index(request):
     announces = Announcement.objects.all()
     if announces.count() > 0:
         first_announce = announces[0]
+        Namelist = first_announce.Namelist.split(",")[-1]
     announces = pageGenerator(request,announces)
 
 
 
     if 'annid' in request.GET:
         first_announce = Announcement.objects.get(id=int(request.GET.get("annid",'1')))
-
-    #print(request.get_full_path())
+        Namelist = first_announce.Namelist.split(",")[:-1]
+    #print(Namelist)
     #print(request.META.get('HTTP_REFERER', '/'))
     return render_to_response('index.html',locals(),context_instance = RequestContext(request))
 
@@ -272,7 +273,7 @@ def userlist(request):
     notifications = Notification.objects.filter(ToUser=username)
 
     if 'SearchName' in request.GET:
-        users = Employee.objects.filter(UserID=request.GET.get("SearchName",'1'))
+        users = Employee.objects.filter(UserID__icontains=request.GET.get("SearchName",'1'))
     else:
         users = Employee.objects.all()
 
@@ -402,7 +403,7 @@ def grouplist(request):
     notifications = Notification.objects.filter(ToUser=username)
 
     if 'SearchName' in request.GET:
-        groups = GroupName.objects.filter(Name=request.GET.get("SearchName",'1'))
+        groups = GroupName.objects.filter(Name__icontains=request.GET.get("SearchName",'1'))
     else:
         groups = GroupName.objects.all()
 
@@ -514,12 +515,21 @@ def plangrouplist(request):
 
     if 'planofgroup' in request.GET:
         plans = Plan.objects.filter(planlevel=request.GET.get("planofgroup",'1'))
-        subTitle = request.GET.get("planofgroup",'1') + " Group"
-        members = Employee.objects.filter(GroupName=GroupName.objects.get(Name=request.GET.get("planofgroup",'1')))
-    elif 'planof' in request.GET:
-        plans = Plan.objects.filter(planlevel=request.GET.get("planof",'1'))
-        subTitle = request.GET.get("planof",'1') + "'s"
-        members = Employee.objects.filter(GroupName=Employee.objects.get(UserID=request.GET.get("planof",'1')).GroupName)
+        subTitle = request.GET.get("planofgroup",'1') + "'s"
+        try:
+            if 'SearchName' in request.GET:
+                members = Employee.objects.filter(UserName__icontains=request.GET.get("SearchName",'1'))
+            else:
+                members = Employee.objects.filter(GroupName=GroupName.objects.get(Name=request.GET.get("planofgroup",'1')))
+    #elif 'planof' in request.GET:
+    #    plans = Plan.objects.filter(planlevel=request.GET.get("planof",'1'))
+    #    subTitle = request.GET.get("planof",'1') + "'s"
+        except Exception as e:
+            if 'SearchName' in request.GET:
+                members = Employee.objects.filter(UserName__icontains=request.GET.get("SearchName",'1'))
+            else:
+                members = Employee.objects.filter(GroupName=Employee.objects.get(UserID=request.GET.get("planofgroup",'1')).GroupName)
+        
     else:
         return HttpResponseRedirect('planlist',locals())
 
@@ -585,10 +595,13 @@ def plandetail(request):
         if detail.planlevel == "Team":
             rel = "Team"
             relates = GroupName.objects.all()
+            if 'SearchName' in request.GET:
+                relates = GroupName.objects.filter(Name__icontains=request.GET.get("SearchName",'1'))
         else:
             rel = ""
             relates = Employee.objects.filter(GroupName=Employee.objects.get(UserID=detail.UserID).GroupName)
-
+            if 'SearchName' in request.GET:
+                relates = Employee.objects.filter(GroupName=Employee.objects.get(UserID=detail.UserID).GroupName,UserName__icontains=request.GET.get("SearchName",'1'))
         return render_to_response('plan/plan-detail.html',locals(),context_instance = RequestContext(request))
 
 @login_required
@@ -654,7 +667,7 @@ def levellist(request):
     notifications = Notification.objects.filter(ToUser=username)
 
     if 'SearchName' in request.GET:
-        levels = Level.objects.filter(Levelname=request.GET.get("SearchName",'1'))
+        levels = Level.objects.filter(Levelname__icontains=request.GET.get("SearchName",'1'))
     else:
         levels = Level.objects.all()
 
@@ -746,7 +759,7 @@ def scorelist(request):
     notifications = Notification.objects.filter(ToUser=username)
 
     if 'SearchName' in request.GET:
-        users = Employee.objects.filter(UserID=request.GET.get("SearchName",'1'))
+        users = Employee.objects.filter(UserID__icontains=request.GET.get("SearchName",'1'))
     else:
         users = Employee.objects.all()
 
@@ -798,7 +811,7 @@ def eventlist(request):
     notifications = Notification.objects.filter(ToUser=username)
 
     if 'SearchName' in request.GET:
-        salarys = Salary.objects.filter(UserID=request.GET.get("SearchName",'1'))
+        salarys = Salary.objects.filter(UserID__icontains=request.GET.get("SearchName",'1'))
     else:
         salarys = Salary.objects.all()
 

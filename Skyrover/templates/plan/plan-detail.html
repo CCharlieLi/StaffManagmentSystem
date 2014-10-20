@@ -7,7 +7,7 @@
 
     <!-- this page specific styles -->
     <link rel="stylesheet" href="/static/css/compiled/user-profile.css" type="text/css" media="screen" />
-
+    <script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
 </head>
 <body>
 
@@ -112,6 +112,13 @@
                     <!-- side address column -->
                     <div class="span3 address pull-right">
                         <h6>Relates</h6>
+                        <input type="text" id="searchtext" class="span10 search" placeholder="Type a name..." onKeyDown="javascript:if (event.keyCode==13) search();" />
+                        <script type="text/javascript">
+                            function search()
+                            {
+                               window.location="/manage/plandetail?planid={{detail.id}}&SearchName="+$("#searchtext").attr('value');
+                            };
+                        </script>
                         <ul>
                         {% ifequal rel "Team" %}
                             {% for relate in relates %}
@@ -124,7 +131,7 @@
                             {% for relate in relates %}
                              <li class="ico-li">
                                 <i class="icon-group"></i>
-                                <a href="/manage/plangrouplist?planof={{relate.UserID}}">{{relate.UserName}}</a>
+                                <a href="/manage/plangrouplist?planofgroup={{relate.UserID}}">{{relate.UserName}}</a>
                             </li>
                             {% endfor %}
                         {% endifequal %}
