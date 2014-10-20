@@ -1,18 +1,21 @@
-<!-- navbar -->
-    <div class="navbar navbar-inverse">
+<div class="navbar navbar-inverse">
         <div class="navbar-inner">
-            <button type="button" class="btn btn-navbar visible-phone" id="menu-toggler">
+            <a class="brand" href="{% url 'index' %}"><img src="/static/img/logo.png" /></a>
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-
-            <a class="brand" href="{% url 'index' %}"><img src="/static/img/logo.png" /></a>
-
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li class="active"><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'userlist' %}">Team</a></li>
+                    <li><a href="{% url 'planlist' %}">Plan</a></li>
+                    <li><a href="{% url 'scorelist' %}">Score</a></li>
+                    <li><a href="{% url 'profilepage' %}">My Info</a></li>
+                </ul>
+            </div>
             <ul class="nav pull-right">
-                <li class="hidden-phone">
-                    <input class="search" type="text" />
-                </li>
                 <li class="notification-dropdown hidden-phone">
                     <a href="#" class="trigger">
                         <i class="icon-warning-sign"></i>
@@ -83,4 +86,3 @@
             </ul>
         </div>
     </div>
-    <!-- end navbar -->

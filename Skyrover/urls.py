@@ -41,6 +41,7 @@ urlpatterns = [
 
     #profile
     url(r'^manage/profilepage$','Manager.views.profilepage',name="profilepage"),
+    url(r'^manage/profileedit$','Manager.views.profileedit',name="profileedit"),
 
     #user
     url(r'^manage/userlist$','Manager.views.userlist',name="userlist"),
@@ -76,4 +77,5 @@ urlpatterns = [
     url(r'^manage/plandetail$','Manager.views.plandetail',name="plandetail"),
     url(r'^manage/editplan$','Manager.views.editplan',name="editplan"),
     url(r'^manage/delplan$','Manager.views.delplan',name="delplan"),
+    url(r'^manage/advertise$','Manager.views.advertise',name="advertise"),
 ]

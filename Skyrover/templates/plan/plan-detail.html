@@ -45,7 +45,18 @@
                             <div class="span12 section">
                                 {{detail.Content|safe}}
                             </div>
-
+                            <form class="new_user_form inline-input" action="{% url 'advertise' %}" method="post" />
+                            {% csrf_token %}
+                                <input name="detailid" class="span5" type="hidden" value="{{detail.id}}" />
+                                <div class="field-box textarea">
+                                    <label>Advertisement:</label>
+                                    <textarea name="Advertisement" class="span9">{{detail.Advertisement}}</textarea>
+                                </div>
+                                <div class=" pull-right field-box actions">
+                                    <input type="submit" class="btn-glow success" value="Submit" />
+                                </div>
+                            </form>
+                            <br />
                             <h6>Recent plans</h6>
                             <br />
                             <!-- recent orders table -->

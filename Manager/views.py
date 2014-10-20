@@ -113,7 +113,8 @@ def index(request):
     #print(request.META.get('HTTP_REFERER', '/'))
     return render_to_response('index.html',locals(),context_instance = RequestContext(request))
 
-
+@login_required
+@permission_required('Manager.add_announcement')
 def addannounce(request):
     title = "Announcement"
     error_message = ""
@@ -151,6 +152,8 @@ def addannounce(request):
 
     return render_to_response('Announce/new-announce.html',locals(),context_instance = RequestContext(request))
 
+@login_required
+@permission_required('Manager.change_announcement')
 def editannounce(request):
     title = "Announcement"
     error_message = ""
@@ -181,12 +184,14 @@ def editannounce(request):
     else:
         return HttpResponseRedirect('index',locals())
 
-
+@login_required
+@permission_required('Manager.delete_announcement')
 def delannounce(request):
     if 'annid' in request.GET:
         Announcement.objects.get(id=int(request.GET.get("annid",'1'))).delete()
     return HttpResponseRedirect('index',locals())
 
+@login_required
 def readannounce(request):
     username = request.user
 
@@ -207,7 +212,7 @@ def readannounce(request):
 ##########################################################
 
 ######################   notification ####################
-
+@login_required
 def clicknotification(request):
   url ="/"
   if 'notifid' in request.GET:
@@ -220,7 +225,7 @@ def clicknotification(request):
 ##########################################################
 
 ######################   personal profile ################
-
+@login_required
 def profilepage(request):
     title = "Profile"
     error_message = ""
@@ -228,8 +233,18 @@ def profilepage(request):
 
     notifications = Notification.objects.filter(ToUser=username)
 
+    user = Employee.objects.get(UserID=username)
+
+    return render_to_response('profile/personal-info.html',locals(),context_instance = RequestContext(request))
+
+def profileedit(request):
+    title = "Profile"
+    error_message = ""
+    username = request.user
+
+    notifications = Notification.objects.filter(ToUser=username)
+
     if request.method == "POST" and username.username == request.POST['userid']:
-        print("1111")
         user = Employee.objects.get(UserID=request.POST['userid'])
 
         user.UserName = request.POST['username']
@@ -240,12 +255,11 @@ def profilepage(request):
 
         user.save()
 
-        return HttpResponseRedirect('profilepage',locals())
+        return HttpResponseRedirect('profileedit',locals())
 
     user = Employee.objects.get(UserID=username)
 
-    return render_to_response('profile/personal-info.html',locals(),context_instance = RequestContext(request))
-
+    return render_to_response('profile/personal-edit.html',locals(),context_instance = RequestContext(request))
 
 
 
@@ -541,6 +555,7 @@ def plangrouplist(request):
 
 
 @login_required
+@permission_required('Manager.add_plan')
 def addplan(request):
     title = "Plan"
     error_message = ""
@@ -605,6 +620,7 @@ def plandetail(request):
         return render_to_response('plan/plan-detail.html',locals(),context_instance = RequestContext(request))
 
 @login_required
+@permission_required('Manager.change_plan')
 def editplan(request):
     title = "Plan"
     error_message = ""
@@ -638,6 +654,7 @@ def editplan(request):
             return render_to_response('plan/edit-plan.html',locals(),context_instance = RequestContext(request))
 
 @login_required
+@permission_required('Manager.delete_plan')
 def delplan(request):
     username = request.user
     title = "Level"
@@ -655,6 +672,16 @@ def delplan(request):
             Plan.objects.get(id=int(request.GET.get("planid",'1'))).delete()
             error_message = "success"
             return HttpResponseRedirect('planlist',locals())
+
+@login_required
+def advertise(request):
+    if request.method == "POST":
+        u_id = request.POST['detailid']
+        detail = Plan.objects.get(id=u_id)
+        detail.Advertisement = request.POST['Advertisement']
+        detail.save()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 ###################Level#############################
 @login_required
@@ -770,6 +797,7 @@ def scorelist(request):
 
 
 @login_required
+@permission_required('Manager.change_salary')
 def editscore(request):
     username = request.user
     title = "Score"

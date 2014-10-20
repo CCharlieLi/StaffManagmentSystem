@@ -64,6 +64,7 @@ class Plan(models.Model):
 	Content = models.TextField(blank=True)
 	Progress = models.CharField(max_length=20,null=True,blank=True)
 	Estimate = models.CharField(max_length=20,null=True,blank=True)
+	Advertisement = models.TextField(default="",blank=True)
 	def __str__(self):
 		return self.userID
 	class Meta:#organize meta data when read from db
