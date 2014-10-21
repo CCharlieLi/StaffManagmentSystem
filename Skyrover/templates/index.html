@@ -7,7 +7,8 @@
 
     <!-- this page specific styles -->
     <link rel="stylesheet" href="/static/css/compiled/index.css" type="text/css" media="screen" />
-
+    <script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/alert-message.js"></script>
 </head>
 <body>
 
@@ -15,11 +16,21 @@
 
     {% include "sidebar.html" %}
 
-
+                            
     <!-- main container -->
     <div class="content">
         <div class="container-fluid">
             <div id="pad-wrapper" class="user-profile">
+
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} form-message" style="cursor: pointer;">
+                    <i class="icon-exclamation-sign"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% endif %}
+
                 <!-- header -->
                 <div class="row-fluid header">
                     <div class="span8">

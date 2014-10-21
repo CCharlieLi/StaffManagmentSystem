@@ -20,6 +20,14 @@
     <div class="content">
         <div class="container-fluid">
             <div id="pad-wrapper" class="user-profile">
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} form-message" style="cursor: pointer;">
+                    <i class="icon-exclamation-sign"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% endif %}
                 <!-- header -->
                 <div class="row-fluid header">
                     <div class="span8">

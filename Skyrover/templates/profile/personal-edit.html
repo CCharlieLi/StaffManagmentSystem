@@ -35,6 +35,14 @@
     <div class="content wide-content">
         <div class="container-fluid">
             <div class="settings-wrapper" id="pad-wrapper">
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} form-message" style="cursor: pointer;">
+                    <i class="icon-exclamation-sign"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% endif %}
                 <!-- avatar column -->
                 <div class="span3 avatar-box">
                     <div class="personal-image">

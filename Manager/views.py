@@ -7,13 +7,14 @@ from django.contrib.auth.decorators import login_required,permission_required
 from django.contrib.auth.models import User, Group
 from django.contrib import auth
 from django.core.paginator import Paginator,InvalidPage,EmptyPage
-
+from django.contrib import messages
 
 from rest_framework import viewsets
 
 from Manager.models import *
 from Manager.serializers import *
 import time
+
 
 #################  REST viewset  ######################
 class UserAuthViewSet(viewsets.ModelViewSet):
@@ -96,8 +97,8 @@ def pageGenerator(request,objs):
 @login_required
 def changepassword(request):
     title = "Change Password"
-    error_message = ""
     username = request.user
+    
     notifications = Notification.objects.filter(ToUser=username)
 
     if request.method == "POST":
@@ -131,17 +132,16 @@ def index(request):
     if 'annid' in request.GET:
         first_announce = Announcement.objects.get(id=int(request.GET.get("annid",'1')))
         Namelist = first_announce.Namelist.split(",")[:-1]
-    #print(Namelist)
-    #print(request.META.get('HTTP_REFERER', '/'))
+
     return render_to_response('index.html',locals(),context_instance = RequestContext(request))
 
 @login_required
 @permission_required('Manager.add_announcement')
 def addannounce(request):
     title = "Announcement"
-    error_message = ""
     username = request.user
-
+    
+    #binding
     groups = GroupName.objects.all()
     notifications = Notification.objects.filter(ToUser=username)
 
@@ -157,18 +157,17 @@ def addannounce(request):
         for each in Employee.objects.all():
             namelist = namelist + each.UserName + ","
 
-        #print(namelist)
-
         ann = Announcement(Publisher=u_username,Title=u_title,
             Datetime=u_datetime,Content=u_content,Namelist=namelist)
         ann.save()
 
-        #print(ann.id)
+        #success message
+        messages.add_message(request, messages.SUCCESS, 'Publish announcement successfully!')
+        
+        #Notification
         for each in Employee.objects.all():
-          notification = Notification(Type="Announcement",ToUser=each.UserID,Content="/manage/index?annid="+str(ann.id))
-          notification.save()
-
-        #print(Notification.objects.all())
+            notification = Notification(Type="Announcement",ToUser=each.UserID,Content="/manage/index?annid="+str(ann.id))
+            notification.save()
 
         return HttpResponseRedirect('index',locals())
 
@@ -178,7 +177,6 @@ def addannounce(request):
 @permission_required('Manager.change_announcement')
 def editannounce(request):
     title = "Announcement"
-    error_message = ""
     username = request.user
 
     groups = GroupName.objects.all()
@@ -198,6 +196,7 @@ def editannounce(request):
         ann.Content = u_content
         ann.save()
 
+        messages.add_message(request, messages.SUCCESS, 'Edit announcement successfully!')
         return HttpResponseRedirect('index',locals())
 
     if 'annid' in request.GET:
@@ -211,6 +210,7 @@ def editannounce(request):
 def delannounce(request):
     if 'annid' in request.GET:
         Announcement.objects.get(id=int(request.GET.get("annid",'1'))).delete()
+        messages.add_message(request, messages.SUCCESS, 'Delete announcement successfully!')
     return HttpResponseRedirect('index',locals())
 
 @login_required
@@ -228,6 +228,7 @@ def readannounce(request):
 
         announce.Namelist = namelist
         announce.save()
+        messages.add_message(request, messages.INFO, 'You have read the announcement.')
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
@@ -250,7 +251,6 @@ def clicknotification(request):
 @login_required
 def profilepage(request):
     title = "Profile"
-    error_message = ""
     username = request.user
 
     notifications = Notification.objects.filter(ToUser=username)
@@ -261,7 +261,6 @@ def profilepage(request):
 
 def profileedit(request):
     title = "Profile"
-    error_message = ""
     username = request.user
 
     notifications = Notification.objects.filter(ToUser=username)
@@ -276,7 +275,7 @@ def profileedit(request):
         user.QQ = request.POST['qq']
 
         user.save()
-
+        messages.add_message(request, messages.SUCCESS, 'Edit profile successfully!')
         return HttpResponseRedirect('profileedit',locals())
 
     user = Employee.objects.get(UserID=username)
@@ -302,7 +301,6 @@ def calendar(request):
 @login_required
 def userlist(request):
     title = "User"
-    error_message = ""
     username = request.user
 
     groups = GroupName.objects.all()
@@ -322,7 +320,6 @@ def userlist(request):
 @permission_required('Manager.add_employee')
 def adduser(request):
     title = "User"
-    error_message = ""
     username = request.user
 
     groups = GroupName.objects.all()
@@ -355,7 +352,7 @@ def adduser(request):
         user = User.objects.create_user(username=u_userid,password=u_password)
         user.save()
         employee.save()
-
+        messages.add_message(request, messages.SUCCESS, 'Add user successfully!')
         return HttpResponseRedirect('userlist',locals())
 
     levels = Level.objects.all()
@@ -366,7 +363,6 @@ def adduser(request):
 @permission_required('Manager.change_employee')
 def edituser(request):
     title = "User"
-    error_message = ""
     username = request.user
 
     groups = GroupName.objects.all()
@@ -382,17 +378,13 @@ def edituser(request):
         user.Email = request.POST['email']
         user.Other = request.POST['introduce']
         user.QQ = request.POST['qq']
-        #u_password = request.POST['password']
-        #u_confpassword = request.POST['confpassword']
-        #print (u_username,u_password)
-
         user.save()
 
         if user.Levelname.Levelname == "GroupLeader":
             gl = GroupName.objects.get(Name=user.GroupName.Name)
             gl.GroupMaster = user.UserName
             gl.save()
-
+        messages.add_message(request, messages.SUCCESS, 'Edit user successfully!')
         return HttpResponseRedirect('userlist',locals())
 
     if 'editUID' in request.GET:
@@ -409,7 +401,6 @@ def edituser(request):
 def deluser(request):
     username = request.user
     title = "User"
-    error_message = ""
 
     groups = GroupName.objects.all()
     notifications = Notification.objects.filter(ToUser=username)
@@ -419,9 +410,7 @@ def deluser(request):
 
         User.objects.get(username=uid).delete()
         Employee.objects.get(UserID=uid).delete()
-
-        #print (groupid)
-        error_message = "success"
+        messages.add_message(request, messages.SUCCESS, 'Delete user successfully!')
         return HttpResponseRedirect('userlist',locals())
 
     return render_to_response('user/user-list.html',locals(),context_instance = RequestContext(request))
@@ -432,7 +421,6 @@ def deluser(request):
 @login_required
 def grouplist(request):
     title = "Group"
-    error_message = ""
     username = request.user
 
     groups = GroupName.objects.all()
@@ -453,7 +441,6 @@ def grouplist(request):
 def addgroup(request):
     username = request.user
     title = "Group"
-    error_message = ""
 
     groups = GroupName.objects.all()
     notifications = Notification.objects.filter(ToUser=username)
@@ -461,11 +448,11 @@ def addgroup(request):
     if request.method == "POST":
         u_groupname = request.POST['groupname']
 
-
         #print (u_groupname,u_groupmaster)
 
         group = GroupName(Name=u_groupname)
         group.save()
+        messages.add_message(request, messages.SUCCESS, 'Add group successfully!')
         return HttpResponseRedirect('grouplist',locals())
 
     return render_to_response('group/group-list.html',locals(),context_instance = RequestContext(request))
@@ -475,7 +462,6 @@ def addgroup(request):
 def editgroup(request):
     username = request.user
     title = "Group"
-    error_message = ""
 
     groups = GroupName.objects.all()
     notifications = Notification.objects.filter(ToUser=username)
@@ -492,6 +478,7 @@ def editgroup(request):
 
         #print (group.Name)
         group.save()
+        messages.add_message(request, messages.SUCCESS, 'Edit group successfully!')
         return HttpResponseRedirect('grouplist',locals())
 
     return render_to_response('group/group-list.html',locals(),context_instance = RequestContext(request))
@@ -502,7 +489,6 @@ def editgroup(request):
 def delgroup(request):
     username = request.user
     title = "Group"
-    error_message = ""
 
     groups = GroupName.objects.all()
     notifications = Notification.objects.filter(ToUser=username)
@@ -511,10 +497,8 @@ def delgroup(request):
         groupid = int(request.GET.get("delgroupID",'1'))
 
         ####checke people in group
-
         GroupName.objects.get(id=groupid).delete()
-        #print (groupid)
-        error_message = "success"
+        messages.add_message(request, messages.SUCCESS, 'Delete group successfully!')
         return HttpResponseRedirect('grouplist',locals())
 
     return render_to_response('group/group-list.html',locals(),context_instance = RequestContext(request))
@@ -524,7 +508,6 @@ def delgroup(request):
 @login_required
 def planlist(request):
     title = "Plan"
-    error_message = ""
     username = request.user
 
     groups = GroupName.objects.all()
@@ -543,7 +526,6 @@ def planlist(request):
 @login_required
 def plangrouplist(request):
     title = "Plan"
-    error_message = ""
     username = request.user
 
     groups = GroupName.objects.all()
@@ -557,9 +539,7 @@ def plangrouplist(request):
                 members = Employee.objects.filter(UserName__icontains=request.GET.get("SearchName",'1'))
             else:
                 members = Employee.objects.filter(GroupName=GroupName.objects.get(Name=request.GET.get("planofgroup",'1')))
-    #elif 'planof' in request.GET:
-    #    plans = Plan.objects.filter(planlevel=request.GET.get("planof",'1'))
-    #    subTitle = request.GET.get("planof",'1') + "'s"
+
         except Exception as e:
             if 'SearchName' in request.GET:
                 members = Employee.objects.filter(UserName__icontains=request.GET.get("SearchName",'1'))
@@ -579,7 +559,6 @@ def plangrouplist(request):
 @login_required
 def addplan(request):
     title = "Plan"
-    error_message = ""
     username = request.user
 
     groups = GroupName.objects.all()
@@ -608,7 +587,7 @@ def addplan(request):
         plan = Plan(UserID=u_userid,UserName=u_username,plantitle=u_plantitle,
             Datetime=u_datetime,planlevel=u_planlevel,Content=u_content,Progress="0")
         plan.save()
-
+        messages.add_message(request, messages.SUCCESS, 'Add plan successfully!')
         return HttpResponseRedirect('planlist',locals())
 
     return render_to_response('plan/new-plan.html',locals(),context_instance = RequestContext(request))
@@ -616,7 +595,6 @@ def addplan(request):
 @login_required
 def plandetail(request):
     title = "Plan"
-    error_message = ""
     username = request.user
 
     groups = GroupName.objects.all()
@@ -643,7 +621,6 @@ def plandetail(request):
 @login_required
 def editplan(request):
     title = "Plan"
-    error_message = ""
     username = request.user
 
     groups = GroupName.objects.all()
@@ -660,7 +637,7 @@ def editplan(request):
         plan.Progress = request.POST['progress']
 
         plan.save()
-
+        messages.add_message(request, messages.SUCCESS, 'Edit plan successfully!')
         return HttpResponseRedirect('planlist',locals())
 
 
@@ -677,7 +654,6 @@ def editplan(request):
 def delplan(request):
     username = request.user
     title = "Level"
-    error_message = ""
 
     groups = GroupName.objects.all()
     notifications = Notification.objects.filter(ToUser=username)
@@ -689,7 +665,7 @@ def delplan(request):
             return HttpResponseRedirect('planlist',locals())
         else:
             Plan.objects.get(id=int(request.GET.get("planid",'1'))).delete()
-            error_message = "success"
+            messages.add_message(request, messages.SUCCESS, 'Delete plan successfully!')
             return HttpResponseRedirect('planlist',locals())
 
 @login_required
@@ -702,14 +678,13 @@ def advertise(request):
 
         notification = Notification(Type="Plan Advertisement",ToUser=detail.UserID,Content=request.META.get('HTTP_REFERER', '/'))
         notification.save()
-
+        messages.add_message(request, messages.SUCCESS, 'Add advertisement successfully!')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 ###################Level#############################
 @login_required
 def levellist(request):
     title = "Level"
-    error_message = ""
     username = request.user
 
     groups = GroupName.objects.all()
@@ -731,7 +706,6 @@ def levellist(request):
 def addlevel(request):
     username = request.user
     title = "Level"
-    error_message = ""
 
     groups = GroupName.objects.all()
     notifications = Notification.objects.filter(ToUser=username)
@@ -739,10 +713,9 @@ def addlevel(request):
     if request.method == "POST":
         u_levelname = request.POST['levelname']
 
-        #print (u_groupname,u_groupmaster)
-
         level = Level(Levelname=u_levelname)
         level.save()
+        messages.add_message(request, messages.SUCCESS, 'Add level successfully!')
         return HttpResponseRedirect('levellist',locals())
 
     return render_to_response('level/level-list.html',locals(),context_instance = RequestContext(request))
@@ -752,7 +725,6 @@ def addlevel(request):
 def editlevel(request):
     username = request.user
     title = "Level"
-    error_message = ""
 
     groups = GroupName.objects.all()
     notifications = Notification.objects.filter(ToUser=username)
@@ -767,6 +739,7 @@ def editlevel(request):
         level.Levelname = u_levelname
         #print (group.Name)
         level.save()
+        messages.add_message(request, messages.SUCCESS, 'Edit level successfully!')
         return HttpResponseRedirect('levellist',locals())
 
     return render_to_response('level/level-list.html',locals(),context_instance = RequestContext(request))
@@ -777,7 +750,6 @@ def editlevel(request):
 def dellevel(request):
     username = request.user
     title = "Level"
-    error_message = ""
 
     groups = GroupName.objects.all()
     notifications = Notification.objects.filter(ToUser=username)
@@ -785,12 +757,10 @@ def dellevel(request):
 
     if 'dellevelID' in request.GET:
         levelid = int(request.GET.get("dellevelID",'1'))
-
         ####checke people with level
 
         Level.objects.get(id=levelid).delete()
-        #print (groupid)
-        error_message = "success"
+        messages.add_message(request, messages.SUCCESS, 'Delete level successfully!')
         return HttpResponseRedirect('levellist',locals())
 
     return render_to_response('level/level-list.html',locals(),context_instance = RequestContext(request))
@@ -801,7 +771,6 @@ def dellevel(request):
 @login_required
 def scorelist(request):
     title = "Score"
-    error_message = ""
     username = request.user
 
     groups = GroupName.objects.all()
@@ -818,7 +787,6 @@ def scorelist(request):
         users = Employee.objects.all()
 
     users = pageGenerator(request,users)
-    #print(users)
 
     return render_to_response('score/score-list.html',locals(),context_instance = RequestContext(request))
 
@@ -828,7 +796,6 @@ def scorelist(request):
 def editscore(request):
     username = request.user
     title = "Score"
-    error_message = ""
 
     groups = GroupName.objects.all()
     notifications = Notification.objects.filter(ToUser=username)
@@ -850,7 +817,7 @@ def editscore(request):
 
         notification = Notification(Type="Score Change",ToUser=user.UserID,Content="/manage/eventlist?SearchName="+user.UserID)
         notification.save()
-
+        messages.add_message(request, messages.SUCCESS, 'Edit score successfully!')
         return HttpResponseRedirect('scorelist',locals())
 
     return render_to_response('score/score-list.html',locals(),context_instance = RequestContext(request))
@@ -859,7 +826,6 @@ def editscore(request):
 @login_required
 def eventlist(request):
     title = "Score"
-    error_message = ""
     username = request.user
 
     groups = GroupName.objects.all()
@@ -877,14 +843,11 @@ def eventlist(request):
 @login_required
 def salarybase(request):
     title = "Score"
-    error_message = ""
     username = request.user
-
-
 
     if request.method == "POST":
         salary = Salarybase(Base=request.POST['base'],Publisher=username.username,Datetime=time.time()) 
         salary.save()
-
+        messages.add_message(request, messages.SUCCESS, 'Set salary base successfully!')
 
     return HttpResponseRedirect('scorelist',locals())
