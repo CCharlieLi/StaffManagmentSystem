@@ -124,7 +124,8 @@ def index(request):
     announces = Announcement.objects.all()
     if announces.count() > 0:
         first_announce = announces[0]
-        Namelist = first_announce.Namelist.split(",")[-1]
+        Namelist = first_announce.Namelist.split(",")[:-1]
+
     announces = pageGenerator(request,announces)
 
     if 'annid' in request.GET:
@@ -576,7 +577,6 @@ def plangrouplist(request):
 
 
 @login_required
-@permission_required('Manager.add_plan')
 def addplan(request):
     title = "Plan"
     error_message = ""
@@ -641,7 +641,6 @@ def plandetail(request):
         return render_to_response('plan/plan-detail.html',locals(),context_instance = RequestContext(request))
 
 @login_required
-@permission_required('Manager.change_plan')
 def editplan(request):
     title = "Plan"
     error_message = ""
@@ -675,7 +674,6 @@ def editplan(request):
             return render_to_response('plan/edit-plan.html',locals(),context_instance = RequestContext(request))
 
 @login_required
-@permission_required('Manager.delete_plan')
 def delplan(request):
     username = request.user
     title = "Level"
