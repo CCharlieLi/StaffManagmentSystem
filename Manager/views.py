@@ -811,7 +811,7 @@ def scorelist(request):
 
     try:
         base = Salarybase.objects.all()[0]
-    except ValueError:
+    except Exception as e:
         base = "" 
 
     if 'SearchName' in request.GET:
