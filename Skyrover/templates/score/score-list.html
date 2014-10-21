@@ -28,7 +28,15 @@
                 <div class="row-fluid header">
                     <h3>Score</h3>
                     <div class="span10 pull-right">
-                        <input type="text" id="searchtext" class="span5 search" placeholder="Type a user's ID..." onKeyDown="javascript:if (event.keyCode==13) search();" />
+                        <input type="text" id="searchtext" class="span5 search " placeholder="Type a user's ID..." onKeyDown="javascript:if (event.keyCode==13) search();" />
+
+
+
+                        <input type="button" class="btn-flat success pull-right mws-jui-dialog-mdl-btn-new" value="Salary Base" />
+                            <div id="mws-jui-dialog-new">
+                                {%  include "score/salarybase.html" %}
+                            </div>
+                        <input type="text" class="span2  pull-right" placeholder="" value="{{base}} RMB" />
                     </div>
                     </div>
                      <div id="mws-jui-dialog-edit">

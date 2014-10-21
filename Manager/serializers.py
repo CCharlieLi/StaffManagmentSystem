@@ -39,3 +39,8 @@ class SalarySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Salary
         fields = ('id','UserID','Score','Event')
+
+class SalaryBaseSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Salarybase
+        fields = ('id','Base','Publisher','Datetime')

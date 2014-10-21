@@ -13,6 +13,7 @@ from rest_framework import viewsets
 
 from Manager.models import *
 from Manager.serializers import *
+import time
 
 #################  REST viewset  ######################
 class UserAuthViewSet(viewsets.ModelViewSet):
@@ -42,6 +43,10 @@ class CalendarViewSet(viewsets.ModelViewSet):
 class SalaryViewSet(viewsets.ModelViewSet):
     queryset = Salary.objects.all()
     serializer_class = SalarySerializer
+
+class SalaryBaseViewSet(viewsets.ModelViewSet):
+    queryset = Salarybase.objects.all()
+    serializer_class = SalaryBaseSerializer
 ###############################################
 
 #################  login logout #####################
@@ -88,6 +93,24 @@ def pageGenerator(request,objs):
         objs = paginator.page(paginator.num_pages)
     return objs
 
+@login_required
+def changepassword(request):
+    title = "Change Password"
+    error_message = ""
+    username = request.user
+    notifications = Notification.objects.filter(ToUser=username)
+
+    if request.method == "POST":
+        user = auth.authenticate(username=username, password=request.POST['oldpass'])
+        if user is not None and user.is_active:
+            newpassword = request.POST['newpass']
+            print(user.set_password(newpassword))
+            user.save()
+        return HttpResponseRedirect('changepassword',locals())
+
+    return render_to_response('profile/change-password.html',locals(),context_instance = RequestContext(request))
+
+
 
 #########################   index   ######################
 @login_required
@@ -103,8 +126,6 @@ def index(request):
         first_announce = announces[0]
         Namelist = first_announce.Namelist.split(",")[-1]
     announces = pageGenerator(request,announces)
-
-
 
     if 'annid' in request.GET:
         first_announce = Announcement.objects.get(id=int(request.GET.get("annid",'1')))
@@ -681,6 +702,9 @@ def advertise(request):
         detail.Advertisement = request.POST['Advertisement']
         detail.save()
 
+        notification = Notification(Type="Plan Advertisement",ToUser=detail.UserID,Content=request.META.get('HTTP_REFERER', '/'))
+        notification.save()
+
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 ###################Level#############################
@@ -785,6 +809,11 @@ def scorelist(request):
     groups = GroupName.objects.all()
     notifications = Notification.objects.filter(ToUser=username)
 
+    try:
+        base = Salarybase.objects.all()[0]
+    except ValueError:
+        base = "" 
+
     if 'SearchName' in request.GET:
         users = Employee.objects.filter(UserID__icontains=request.GET.get("SearchName",'1'))
     else:
@@ -847,3 +876,17 @@ def eventlist(request):
 
     return render_to_response('score/event-list.html',locals(),context_instance = RequestContext(request))
 
+@login_required
+def salarybase(request):
+    title = "Score"
+    error_message = ""
+    username = request.user
+
+
+
+    if request.method == "POST":
+        salary = Salarybase(Base=request.POST['base'],Publisher=username.username,Datetime=time.time()) 
+        salary.save()
+
+
+    return HttpResponseRedirect('scorelist',locals())

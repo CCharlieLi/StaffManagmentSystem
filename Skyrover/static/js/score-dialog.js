@@ -1,6 +1,22 @@
         //dialog
         $(document).ready(function() {
-            
+            $("#mws-jui-dialog-new").dialog({
+                autoOpen: false, 
+                title: "Salary Base", 
+                modal: true, 
+                width: "640", 
+                buttons: [{
+                        text: "Close", 
+                        click: function() {
+                            $( this ).dialog( "close" );
+                        }}]
+            });
+
+            $(".mws-jui-dialog-mdl-btn-new").bind("click", function(event) {
+                $("#mws-jui-dialog-new").dialog("option", {modal: true}).dialog("open");
+                event.preventDefault();
+            });
+
             $("#mws-jui-dialog-edit").dialog({
                 autoOpen: false, 
                 title: "Edit Score", 
@@ -39,7 +55,6 @@
             //alert(editid)
         };
 
-        //REST delete
         var urlstr;
         function search()
         {

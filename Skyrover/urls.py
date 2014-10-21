@@ -13,7 +13,7 @@ router.register(r'announcements', views.AnnouncementViewSet)
 router.register(r'levels', views.LevelViewSet)
 router.register(r'calendar', views.CalendarViewSet)
 router.register(r'salary', views.SalaryViewSet)
-
+router.register(r'salarybase', views.SalaryBaseViewSet)
 
 urlpatterns = [
     # Examples:
@@ -42,6 +42,7 @@ urlpatterns = [
     #profile
     url(r'^manage/profilepage$','Manager.views.profilepage',name="profilepage"),
     url(r'^manage/profileedit$','Manager.views.profileedit',name="profileedit"),
+    url(r'^manage/changepassword$','Manager.views.changepassword',name="changepassword"),
 
     #user
     url(r'^manage/userlist$','Manager.views.userlist',name="userlist"),
@@ -65,6 +66,7 @@ urlpatterns = [
     url(r'^manage/scorelist$','Manager.views.scorelist',name="scorelist"),
     url(r'^manage/editscore$','Manager.views.editscore',name="editscore"),
     url(r'^manage/eventlist$','Manager.views.eventlist',name="eventlist"),
+    url(r'^manage/salarybase$','Manager.views.salarybase',name="salarybase"),
 
     #Calendar
     url(r'^manage/calendar$','Manager.views.calendar',name="calendar"),

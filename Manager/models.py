@@ -92,3 +92,13 @@ class Salary(models.Model):
 		return self.userID
 	class Meta:#organize meta data when read from db
 		ordering = ['-id']
+
+class Salarybase(models.Model):
+	Base = models.CharField(default="0",max_length=20,null=True,blank=True)
+	Publisher = models.CharField(max_length=20,default="")
+	Datetime = models.CharField(max_length=20,default="")
+	def __str__(self):
+		return self.Base
+	class Meta:#organize meta data when read from db
+		ordering = ['-id']
+		

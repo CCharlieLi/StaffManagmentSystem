@@ -1,0 +1,16 @@
+
+					<div class="span9 with-sidebar">
+                        <div class="container">
+                            <form class="new_user_form inline-input" action="{% url 'salarybase' %}" method="post" />
+                            {% csrf_token %} 
+                                <div class="span5 field-box">
+                                    <label>Salary Base:</label>
+									<input type="text" id="base" name="base" class="span5" placeholder="RMB per salary point..." value="{{base}}" />
+                                </div>
+                                <div class="span9  field-box actions pull-left">
+                                <br>
+                                    <input type="submit" class="btn-flat success" value="Done" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
