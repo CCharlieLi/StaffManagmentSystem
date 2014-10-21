@@ -33,6 +33,14 @@
     <div class="content">
         <div class="container-fluid">
             <div id="pad-wrapper" class="new-user">
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} form-message" style="cursor: pointer;">
+                    <i class="icon-exclamation-sign"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% endif %}
                 <div class="row-fluid header">
                     <h3>Edit user</h3>
                 </div>
