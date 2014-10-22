@@ -22,7 +22,7 @@
                 time ++;
         }});
          
-        timerID = setInterval("$.referesh()", 4000 );
+        timerID = setInterval("$.referesh()", 1000*60*5 );
         
 		
 	});
