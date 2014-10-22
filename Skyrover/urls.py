@@ -80,4 +80,7 @@ urlpatterns = [
     url(r'^manage/editplan$','Manager.views.editplan',name="editplan"),
     url(r'^manage/delplan$','Manager.views.delplan',name="delplan"),
     url(r'^manage/advertise$','Manager.views.advertise',name="advertise"),
+
+    #html5
+    url(r'^html5/mario$','Manager.views.html5mario',name="html5mario"),
 ]

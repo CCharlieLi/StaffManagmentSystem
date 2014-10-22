@@ -8,6 +8,9 @@
     
     <!-- this page specific styles -->
     <link rel="stylesheet" href="/static/css/compiled/signin.css" type="text/css" media="screen" />
+    <script type="text/javascript" src="/static/js/login/login.js" ></script>
+    <script type="text/javascript" src="/static/js/common/jquery.validate-min.js" ></script>
+    <script type="text/javascript" src="/static/js/common/jquery-ui-effecs.min.js" ></script>
 
 </head>
 <body>
@@ -46,13 +49,21 @@
             <img class="logo" src="/static/img/logo-white.png" />
         </a>
 
-        <div class="span4 box">
-            <div class="content-wrap">
+        <div class="span4 box" id="login-form-wrap">
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} form-message" style="cursor: pointer;">
+                    <i class="icon-exclamation-sign"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% endif %}
+            <div class="content-wrap" >
                 <h6>Log in</h6>
                 <form id="login-form"  action="{% url 'login' %}" method="post">
                 {% csrf_token %} 
-                    <input class="span12" name="username" type="text" value="{{ username }}" placeholder="Your account" />
-                    <input class="span12" name="password" type="password" placeholder="Your password" />
+                    <input class="span12 required" name="username" type="text" value="{{ username }}" placeholder="Your account" />
+                    <input class="span12 required" name="password" type="password" placeholder="Your password" />
                     <a href="#" class="forgot">Forgot password?</a>
                     <div class="remember">
                         <input id="remember-me" type="checkbox" />
@@ -68,23 +79,5 @@
             <a href="signup.html">Email the Administrator</a>
         </div>
     </div>
-
-    <!-- pre load bg imgs -->
-    <script type="text/javascript">
-        $(function () {
-            // bg switcher
-            var $btns = $(".bg-switch .bg");
-            $btns.click(function (e) {
-                e.preventDefault();
-                $btns.removeClass("active");
-                $(this).addClass("active");
-                var bg = $(this).data("img");
-
-                $("html").css("background-image", "url('/static/img/bgs/" + bg + "')");
-            });
-
-        });
-    </script>
-
 </body>
 </html>

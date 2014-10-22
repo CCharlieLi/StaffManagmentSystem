@@ -65,6 +65,7 @@ def login(request):
             return HttpResponseRedirect("index")
         else:
             # Show an error massage
+            messages.add_message(request, messages.ERROR, 'Account or Password wrong!')
             return HttpResponseRedirect('login',locals())
         #if form.is_valid():
 
@@ -851,3 +852,12 @@ def salarybase(request):
         messages.add_message(request, messages.SUCCESS, 'Set salary base successfully!')
 
     return HttpResponseRedirect('scorelist',locals())
+
+#################################################################
+
+##############################   html5  ########################
+
+@login_required
+def html5mario(request):
+
+    return render_to_response('html5/mario/index.html',locals(),context_instance = RequestContext(request))

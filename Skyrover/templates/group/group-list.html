@@ -11,11 +11,11 @@
     <link rel="stylesheet" href="/static/css/compiled/new-user.css" type="text/css" media="screen" />
 
     <!-- dialog -->
-    <script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/common/jquery-1.7.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/static/css/jui/jquery.ui.css" media="screen" />
-    <script src="/static/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/static/js/jquery-ui.js"></script>
-    <script type="text/javascript" src="/static/js/group-dialog.js"></script>
+    <script src="/static/js/common/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/static/js/common/jquery-ui.js"></script>
+    <script type="text/javascript" src="/static/js/group/group-dialog.js"></script>
 </head>
 <body>
 
@@ -39,10 +39,6 @@
                     <h3>Group</h3>
                     <div class="span10 pull-right">
                         <input type="text" id="searchtext" class="span5 search" placeholder="Type a group's name..." onKeyDown="javascript:if (event.keyCode==13) search();" />
-
-                        <!-- custom popup filter -->
-                        <!-- styles are located in css/elements.css -->
-                        <!-- script that enables this dropdown is located in js/theme.js -->
 
                         <div class="ui-dropdown">
                             <div class="head" data-toggle="tooltip" title="Click me!">
@@ -154,11 +150,7 @@
         </div>
     </div>
     <!-- end main container -->
-    <!-- Footer -->
-            <footer class=".modal-footer">
-                Copyright &copy; 2014.Company name All rights reserved.
-            </footer>
-    <!-- End Footer -->
+
 
 </body>
 </html>
