@@ -14,16 +14,16 @@
 			}
 		});
 		
-		 // bg switcher
-            var $btns = $(".bg-switch .bg");
-            $btns.click(function (e) {
-                e.preventDefault();
-                $btns.removeClass("active");
-                $(this).addClass("active");
-                var bg = $(this).data("img");
-
-                $("html").css("background-image", "url('/static/img/bgs/" + bg + "')");
-            });
+		$("html").css("background-image", "url('/static/img/bgs/6.jpg')");
+        var time = 0;
+        $.extend({             
+        	referesh: function () {            
+				$("html").css("background-image", "url('/static/img/bgs/"+ time%6 +".jpg')");
+                time ++;
+        }});
+         
+        timerID = setInterval("$.referesh()", 4000 );
+        
 		
 	});
 }) (jQuery);
