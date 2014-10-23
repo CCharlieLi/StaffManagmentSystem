@@ -43,6 +43,7 @@ urlpatterns = [
     url(r'^manage/profilepage$','Manager.views.profilepage',name="profilepage"),
     url(r'^manage/profileedit$','Manager.views.profileedit',name="profileedit"),
     url(r'^manage/changepassword$','Manager.views.changepassword',name="changepassword"),
+    url(r'^manage/uploadhead$','Manager.views.uploadhead',name="uploadhead"),
 
     #user
     url(r'^manage/userlist$','Manager.views.userlist',name="userlist"),
@@ -83,4 +84,6 @@ urlpatterns = [
 
     #html5
     url(r'^html5/mario$','Manager.views.html5mario',name="html5mario"),
+
+
 ]

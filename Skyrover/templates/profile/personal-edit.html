@@ -46,10 +46,11 @@
                 <!-- avatar column -->
                 <div class="span3 avatar-box">
                     <div class="personal-image">
-                        <img src="/static/img/personal-info.png" class="avatar img-circle" />
-                        <p>Upload a photo...</p>
-                        
-                        <input type="file" />
+                        {% ifequal user.Gender "Female" %}
+                        <img src="/static/img/head/{{user.Picture}}" class="avatar img-circle" />
+                        {% else %}
+                        <img src="/static/img/head/{{user.Picture}}" class="avatar" />
+                        {% endifequal %}
                     </div>
                 </div>
 
@@ -82,6 +83,10 @@
                         <div class="field-box">
                             <label>SalaryPoint:</label>
                             <input name="spoint" class="span5 inline-input" readonly="readonly" type="text" value="{{user.SalaryPoint}}" />
+                        </div>
+                        <div class="field-box">
+                            <label>Upload a photo:</label>
+                            <input type="file" name="head" value="{{user.Picture}}"/>
                         </div>
                         <div class="field-box">
                             <label>Tel:</label>

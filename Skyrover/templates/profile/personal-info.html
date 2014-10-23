@@ -32,7 +32,11 @@
                 <!-- avatar column -->
                 <div class="span3 avatar-box">
                     <div class="personal-image">
-                        <img src="/static/img/personal-info.png" class="avatar img-circle" />
+                        {% ifequal user.Gender "Female" %}
+                        <img src="/static/img/head/{{user.Picture}}" class="avatar img-circle" />
+                        {% else %}
+                        <img src="/static/img/head/{{user.Picture}}" class="avatar" />
+                        {% endifequal %}
                         <p>ID: <a>{{user.UserID}}</a></p>
                         <p>Name: <a>{{user.UserName}}</a></p>
                         <p>Level: <a>{{user.Levelname}}</a></p>

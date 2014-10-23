@@ -8,7 +8,7 @@ from django.contrib.auth.models import User, Group
 from django.contrib import auth
 from django.core.paginator import Paginator,InvalidPage,EmptyPage
 from django.contrib import messages
-
+from PIL import Image
 from rest_framework import viewsets
 
 from Manager.models import *
@@ -260,6 +260,7 @@ def profilepage(request):
 
     return render_to_response('profile/personal-info.html',locals(),context_instance = RequestContext(request))
 
+@login_required
 def profileedit(request):
     title = "Profile"
     username = request.user
@@ -275,6 +276,12 @@ def profileedit(request):
         user.Other = request.POST['introduce']
         user.QQ = request.POST['qq']
 
+        reqfile = request.FILES['head']
+        img = Image.open(reqfile)
+        img.thumbnail((167,179),Image.ANTIALIAS)
+        #img.save("/Users/bcc/Desktop/python/bbs/Image/a.png","png")#保存图片
+
+        user.Picture = username.username + ".png"
         user.save()
         messages.add_message(request, messages.SUCCESS, 'Edit profile successfully!')
         return HttpResponseRedirect('profileedit',locals())
@@ -283,6 +290,11 @@ def profileedit(request):
 
     return render_to_response('profile/personal-edit.html',locals(),context_instance = RequestContext(request))
 
+@login_required
+def uploadhead(request):
+
+
+    return render_to_response('profile/personal-edit.html',locals(),context_instance = RequestContext(request))
 
 
 
@@ -337,13 +349,13 @@ def adduser(request):
         u_qq = request.POST['qq']
         u_password = request.POST['password']
         u_confpassword = request.POST['confpassword']
-        print (u_username,u_password)
+        u_gender = request.POST['gender']
 
         #############################
         employee = Employee(UserID=u_userid,UserName=u_username,
             GroupName=GroupName.objects.get(Name=u_groupname),
             Levelname=Level.objects.get(Levelname=u_levelname),
-            Tel=u_tel,Email=u_email,QQ=u_qq,Other=u_introduce)
+            Tel=u_tel,Email=u_email,QQ=u_qq,Other=u_introduce,Gender=u_gender)
 
         if u_levelname == "GroupLeader":
             gl = GroupName.objects.get(Name=u_groupname)
@@ -379,6 +391,7 @@ def edituser(request):
         user.Email = request.POST['email']
         user.Other = request.POST['introduce']
         user.QQ = request.POST['qq']
+        user.Gender = request.POST['gender']
         user.save()
 
         if user.Levelname.Levelname == "GroupLeader":

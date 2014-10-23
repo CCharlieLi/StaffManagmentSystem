@@ -28,7 +28,8 @@ class Employee(models.Model):
 	UserID = models.CharField(max_length=20)
 	#basic information
 	UserName = models.CharField(default="",max_length=20)
-	Picture = models.ImageField(upload_to = 'head',null=True,blank=True)
+	Picture = models.ImageField(upload_to = 'img/head',default='no-img.png')
+	Gender = models.CharField(default="",max_length=10)
 	Levelname = models.ForeignKey(Level,null=True)
 	GroupName = models.ForeignKey(GroupName,null=True)
 	Tel = models.CharField(default="",max_length=11,null=True,blank=True)

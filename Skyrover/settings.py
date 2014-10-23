@@ -102,7 +102,8 @@ TEMPLATE_DIRS = (
     os.path.join(HERE,'templates').replace('\\','/'),
 )
 
-MEDIA_ROOT = os.path.join(HERE,'media/').replace('\\','/')
+
+MEDIA_ROOT = os.path.join(HERE,'static/').replace('\\','/')
 
 
 
