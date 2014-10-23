@@ -58,7 +58,7 @@
                 <div class="span7 personal-info">
                     <h5 class="personal-title">Personal info</h5>
 
-                    <form action="{% url 'profileedit' %}" method="post" />
+                    <form action="{% url 'profileedit' %}" enctype="multipart/form-data" method="post" />
                     {% csrf_token %} 
                         <div class="field-box">
                             <label>ID:</label>

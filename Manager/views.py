@@ -276,10 +276,10 @@ def profileedit(request):
         user.Other = request.POST['introduce']
         user.QQ = request.POST['qq']
 
-        reqfile = request.FILES['head']
+        reqfile = request.FILES["head"]
         img = Image.open(reqfile)
         img.thumbnail((167,179),Image.ANTIALIAS)
-        #img.save("/Users/bcc/Desktop/python/bbs/Image/a.png","png")#保存图片
+        img.save(username.username+".png","png")#保存图片
 
         user.Picture = username.username + ".png"
         user.save()
