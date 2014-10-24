@@ -4,12 +4,14 @@
 <head>
     {% include "include.html" %}
     <!-- libraries -->
+
     <link rel="stylesheet" type="text/css" href="{% static "css/lib/font-awesome.css"%}" />
 
     <!-- this page specific styles -->
     <link rel="stylesheet" href="{% static "css/compiled/user-list.css"%}" type="text/css" media="screen" />
-    <script type="text/javascript" src="{% static "js/common/jquery-1.7.1.min.js"%}"></script>
-    <script type="text/javascript" src="{% static "js/common/bootstrap.min.js"%}"></script>
+
+    
+    
 </head>
 <body>
 
@@ -124,7 +126,8 @@
                                 <a href="/manage/profilepage?uid={{user.UserID}}" class="name">{{user.UserID}}</a>
                             </td>
                             <td>
-                                <a class="name">{{user.UserName}}</a>
+                                <img  src="/static/img/head/{{user.Picture}}" class="img-circle avatar hidden-phone" width="50" height="50" />
+                                <a href="/manage/profilepage?uid={{user.UserID}}" class="name">{{user.UserName}}</a>
                                 <span class="subtext"><br/>Level:  {{user.Levelname}}</span>
                             </td>
                             <td>
