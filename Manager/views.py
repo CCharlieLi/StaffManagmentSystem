@@ -64,6 +64,7 @@ def login(request):
             auth.login(request, user)
             return HttpResponseRedirect("index")
         else:
+            print("111111")
             # Show an error massage
             messages.add_message(request, messages.ERROR, 'Account or Password wrong!')
             return HttpResponseRedirect('login',locals())

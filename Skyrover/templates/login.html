@@ -25,7 +25,7 @@
         <div class="span4 box" id="login-form-wrap">
             {% if messages %}
             {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} form-message" style="cursor: pointer;">
+                <div class="alert alert-{{ message.tags }} id="errormessage" form-message" style="cursor: pointer;">
                     <i class="icon-exclamation-sign"></i>
                     {{ message }}
                 </div>
@@ -35,8 +35,8 @@
                 <h6>Log in</h6>
                 <form id="login-form"  action="{% url 'login' %}" method="post">
                 {% csrf_token %} 
-                    <input class="span12 required" name="username" type="text" value="{{ username }}" placeholder="Your account" />
-                    <input class="span12 required" name="password" type="password" placeholder="Your password" />
+                    <input class="span12 required" id="username" name="username" type="text" value="{{ username }}" placeholder="Your account" />
+                    <input class="span12 required" id="password" name="password" type="password" placeholder="Your password" />
                     <a href="#" class="forgot">Forgot password?</a>
                     <div class="remember">
                         <input id="remember-me" type="checkbox" />
