@@ -276,12 +276,16 @@ def profileedit(request):
         user.Other = request.POST['introduce']
         user.QQ = request.POST['qq']
 
-        reqfile = request.FILES["head"]
-        img = Image.open(reqfile)
-        img.thumbnail((167,179),Image.ANTIALIAS)
-        img.save(username.username+".png","png")#保存图片
+        try:
+            reqfile = request.FILES["head"]
+            img = Image.open(reqfile)
+            img.thumbnail((167,179),Image.ANTIALIAS)
+            img.save("Skyrover/static/img/head/"+username.username+".png","png")#保存图片
 
-        user.Picture = username.username + ".png"
+            user.Picture = username.username + ".png"
+        except Exception as e:
+            pass
+        
         user.save()
         messages.add_message(request, messages.SUCCESS, 'Edit profile successfully!')
         return HttpResponseRedirect('profileedit',locals())

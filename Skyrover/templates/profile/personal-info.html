@@ -1,13 +1,14 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head>
      {% include "include.html" %}
 
     <!-- libraries -->
-    <link rel="stylesheet" type="text/css" href="/static/css/lib/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="{% static "css/lib/font-awesome.css"%}" />
     
     <!-- this page specific styles -->
-    <link rel="stylesheet" href="/static/css/compiled/personal-info.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{% static "css/compiled/personal-info.css"%}" type="text/css" media="screen" />
 
     
 </head>

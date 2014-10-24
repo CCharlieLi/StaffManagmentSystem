@@ -1,14 +1,15 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head>
     {% include "include.html" %}
     <!-- libraries -->
-    <link rel="stylesheet" type="text/css" href="/static/css/lib/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="{% static "css/lib/font-awesome.css"%}" />
 
     <!-- this page specific styles -->
-    <link rel="stylesheet" href="/static/css/compiled/user-list.css" type="text/css" media="screen" />
-    <script type="text/javascript" src="/static/js/common/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="/static/js/common/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static "css/compiled/user-list.css"%}" type="text/css" media="screen" />
+    <script type="text/javascript" src="{% static "js/common/jquery-1.7.1.min.js"%}"></script>
+    <script type="text/javascript" src="{% static "js/common/bootstrap.min.js"%}"></script>
 </head>
 <body>
 
@@ -39,8 +40,8 @@
                         };
                         </script>
                         <!-- custom popup filter -->
-                        <!-- styles are located in css/elements.css -->
-                        <!-- script that enables this dropdown is located in js/theme.js -->
+                        <!-- styles are located in css/elements.css"%} -->
+                        <!-- script that enables this dropdown is located in js/theme.js"%} -->
                         <div class="ui-dropdown">
                             <div class="head" data-toggle="tooltip" title="Click me!">
                                 Filter users

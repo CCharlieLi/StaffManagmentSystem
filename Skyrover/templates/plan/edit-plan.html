@@ -1,17 +1,18 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head>
     {% include "include.html" %}
     <!-- libraries -->
-    <link rel="stylesheet" type="text/css" href="/static/css/lib/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="{% static "css/lib/font-awesome.css"%}" />
     
     <!-- this page specific styles -->
-    <link rel="stylesheet" href="/static/css/compiled/new-user.css" type="text/css" media="screen" />
-    <link href="/static/css/lib/bootstrap.datepicker.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static "css/compiled/new-user.css"%}" type="text/css" media="screen" />
+    <link href="{% static "css/lib/bootstrap.datepicker.css"%}" type="text/css" rel="stylesheet" />
   
 
-    <script src="/static/js/element/bootstrap.datepicker.js"></script>
-    <script src="/static/js/element/jquery.knob.js"></script>
+    <script src="{% static "js/element/bootstrap.datepicker.js"%}"></script>
+    <script src="{% static "js/element/jquery.knob.js"%}"></script>
     <script type="text/javascript">
         $(function () {
             // datepicker plugin
@@ -25,14 +26,14 @@
         });
     </script>
 
-    <script charset="utf-8" src="/static/kindeditor/kindeditor.js"></script>
-    <script charset="utf-8" src="/static/kindeditor/lang/zh_CN.js"></script>
+    <script charset="utf-8" src="{% static "kindeditor/kindeditor.js"%}"></script>
+    <script charset="utf-8" src="{% static "kindeditor/lang/zh_CN.js"%}"></script>
     <script type="text/javascript">
     var editor ; 
     KindEditor.ready(function(K) { 
         var options = { 
-            cssPath : ('/static/kindeditor/themes/default/default.css', 
-                       '/static/kindeditor/plugins/code/prettify.css'),
+            cssPath : ('{% static "kindeditor/themes/default/default.css"%}', 
+                       '{% static "kindeditor/plugins/code/prettify.css"%}'),
             width : '680px', 
             height : '400px', 
             filterMode : true 
