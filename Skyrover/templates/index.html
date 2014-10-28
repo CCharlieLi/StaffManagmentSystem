@@ -9,6 +9,27 @@
     <!-- this page specific styles -->
     <link rel="stylesheet" href="{% static "css/compiled/index.css"%}" type="text/css" media="screen" />
     
+
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+                    $("#mws-growl-btn").bind("click", function(event) {
+                        $.jGrowl("Hello World!", {position: "bottom-right"});
+                    });
+                    
+                    $("#mws-growl-btn-1").bind("click", function(event) {
+                        $.jGrowl("A sticky message", {sticky: true, position: "bottom-right"});
+                    });
+                    
+                    $("#mws-growl-btn-2").bind("click", function(event) {
+                        $.jGrowl("Message with Header", {header: "Important!", position: "bottom-right"});
+                    });
+
+    });
+                    
+    </script>
+    
 </head>
 <body>
 
@@ -21,6 +42,7 @@
     <div class="content">
         <div class="container-fluid">
             <div id="pad-wrapper" class="user-profile">
+            <input type="button" id="mws-growl-btn" class="mws-button blue" value="Basic Notification" />
 
             {% if messages %}
             {% for message in messages %}
@@ -40,7 +62,7 @@
                         <span class="area">Publisher: {{first_announce.Publisher}} </span>
                     </div>
 
-                    <a class="btn-flat success" href="/manage/readannounce?annid={{first_announce.id}}">
+                    <a id="mws-growl-btn" class="btn-flat success" href="/manage/readannounce?annid={{first_announce.id}}">
                         Read
                     </a>
                     <a class="btn-flat " href="{% url 'addannounce' %}">
