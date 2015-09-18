@@ -64,7 +64,6 @@ def login(request):
             auth.login(request, user)
             return HttpResponseRedirect("index")
         else:
-            print("111111")
             # Show an error massage
             messages.add_message(request, messages.ERROR, 'Account or Password wrong!')
             return HttpResponseRedirect('login',locals())
@@ -75,13 +74,13 @@ def login(request):
         if request.user.is_authenticated():
             return HttpResponseRedirect("index")
 
-    return render_to_response('login.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/login.html',locals(),context_instance = RequestContext(request))
 
 def logout(request):
     auth.logout(request)
 
     title = "Login"
-    return render_to_response('login.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/login.html',locals(),context_instance = RequestContext(request))
 
 ######################################################
 def pageGenerator(request,objs):
@@ -111,7 +110,7 @@ def changepassword(request):
             user.save()
         return HttpResponseRedirect('changepassword',locals())
 
-    return render_to_response('profile/change-password.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/profile/change-password.html',locals(),context_instance = RequestContext(request))
 
 
 
@@ -135,7 +134,7 @@ def index(request):
         first_announce = Announcement.objects.get(id=int(request.GET.get("annid",'1')))
         Namelist = first_announce.Namelist.split(",")[:-1]
 
-    return render_to_response('index.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/index.html',locals(),context_instance = RequestContext(request))
 
 @login_required
 @permission_required('Manager.add_announcement')
@@ -173,7 +172,7 @@ def addannounce(request):
 
         return HttpResponseRedirect('index',locals())
 
-    return render_to_response('Announce/new-announce.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/Announce/new-announce.html',locals(),context_instance = RequestContext(request))
 
 @login_required
 @permission_required('Manager.change_announcement')
@@ -203,7 +202,7 @@ def editannounce(request):
 
     if 'annid' in request.GET:
         announce = Announcement.objects.get(id=int(request.GET.get("annid",'1')))
-        return render_to_response('Announce/edit-announce.html',locals(),context_instance = RequestContext(request))
+        return render_to_response('manage/Announce/edit-announce.html',locals(),context_instance = RequestContext(request))
     else:
         return HttpResponseRedirect('index',locals())
 
@@ -259,7 +258,7 @@ def profilepage(request):
 
     user = Employee.objects.get(UserID=username)
 
-    return render_to_response('profile/personal-info.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/profile/personal-info.html',locals(),context_instance = RequestContext(request))
 
 @login_required
 def profileedit(request):
@@ -293,13 +292,13 @@ def profileedit(request):
 
     user = Employee.objects.get(UserID=username)
 
-    return render_to_response('profile/personal-edit.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/profile/personal-edit.html',locals(),context_instance = RequestContext(request))
 
 @login_required
 def uploadhead(request):
 
 
-    return render_to_response('profile/personal-edit.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/profile/personal-edit.html',locals(),context_instance = RequestContext(request))
 
 
 
@@ -312,7 +311,7 @@ def calendar(request):
     username = request.user
     title = "Calendar"
 
-    return render_to_response('calendar.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/calendar.html',locals(),context_instance = RequestContext(request))
 
 
 ###########################  User  #########################
@@ -331,7 +330,7 @@ def userlist(request):
 
     users = pageGenerator(request,users)
 
-    return render_to_response('user/user-list.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/user/user-list.html',locals(),context_instance = RequestContext(request))
 
 
 @login_required
@@ -375,7 +374,7 @@ def adduser(request):
 
     levels = Level.objects.all()
 
-    return render_to_response('user/new-user.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/user/new-user.html',locals(),context_instance = RequestContext(request))
 
 @login_required
 @permission_required('Manager.change_employee')
@@ -410,7 +409,7 @@ def edituser(request):
         user = Employee.objects.get(id=int(request.GET.get("editUID",'1')))
 
         levels = Level.objects.all()
-        return render_to_response('user/edit-user.html',locals(),context_instance = RequestContext(request))
+        return render_to_response('manage/user/edit-user.html',locals(),context_instance = RequestContext(request))
 
     return HttpResponseRedirect('userlist',locals())
 
@@ -432,7 +431,7 @@ def deluser(request):
         messages.add_message(request, messages.SUCCESS, 'Delete user successfully!')
         return HttpResponseRedirect('userlist',locals())
 
-    return render_to_response('user/user-list.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/user/user-list.html',locals(),context_instance = RequestContext(request))
 
 ##################################################
 #########################  Group  ###################
@@ -453,7 +452,7 @@ def grouplist(request):
     users = Employee.objects.all()
     #print(groups)
 
-    return render_to_response('group/group-list.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/group/group-list.html',locals(),context_instance = RequestContext(request))
 
 @login_required
 @permission_required('Manager.add_groupname')
@@ -474,7 +473,7 @@ def addgroup(request):
         messages.add_message(request, messages.SUCCESS, 'Add group successfully!')
         return HttpResponseRedirect('grouplist',locals())
 
-    return render_to_response('group/group-list.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/group/group-list.html',locals(),context_instance = RequestContext(request))
 
 @login_required
 @permission_required('Manager.change_groupname')
@@ -500,7 +499,7 @@ def editgroup(request):
         messages.add_message(request, messages.SUCCESS, 'Edit group successfully!')
         return HttpResponseRedirect('grouplist',locals())
 
-    return render_to_response('group/group-list.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/group/group-list.html',locals(),context_instance = RequestContext(request))
 
 
 @login_required
@@ -520,7 +519,7 @@ def delgroup(request):
         messages.add_message(request, messages.SUCCESS, 'Delete group successfully!')
         return HttpResponseRedirect('grouplist',locals())
 
-    return render_to_response('group/group-list.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/group/group-list.html',locals(),context_instance = RequestContext(request))
 
 #####################  Team Plan  ######################
 
@@ -539,7 +538,7 @@ def planlist(request):
         first_plan = plans[0]
     plans = pageGenerator(request,plans)
 
-    return render_to_response('plan/plan-list.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/plan/plan-list.html',locals(),context_instance = RequestContext(request))
 
 
 @login_required
@@ -572,7 +571,7 @@ def plangrouplist(request):
         first_plan = plans[0]
     plans = pageGenerator(request,plans)
 
-    return render_to_response('plan/plan-group-list.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/plan/plan-group-list.html',locals(),context_instance = RequestContext(request))
 
 
 @login_required
@@ -609,7 +608,7 @@ def addplan(request):
         messages.add_message(request, messages.SUCCESS, 'Add plan successfully!')
         return HttpResponseRedirect('planlist',locals())
 
-    return render_to_response('plan/new-plan.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/plan/new-plan.html',locals(),context_instance = RequestContext(request))
 
 @login_required
 def plandetail(request):
@@ -635,7 +634,7 @@ def plandetail(request):
             relates = Employee.objects.filter(GroupName=Employee.objects.get(UserID=detail.UserID).GroupName)
             if 'SearchName' in request.GET:
                 relates = Employee.objects.filter(GroupName=Employee.objects.get(UserID=detail.UserID).GroupName,UserName__icontains=request.GET.get("SearchName",'1'))
-        return render_to_response('plan/plan-detail.html',locals(),context_instance = RequestContext(request))
+        return render_to_response('manage/plan/plan-detail.html',locals(),context_instance = RequestContext(request))
 
 @login_required
 def editplan(request):
@@ -667,7 +666,7 @@ def editplan(request):
             return HttpResponseRedirect('planlist',locals())
         else:
             edit = Plan.objects.get(id=int(request.GET.get("planid",'1')))
-            return render_to_response('plan/edit-plan.html',locals(),context_instance = RequestContext(request))
+            return render_to_response('manage/plan/edit-plan.html',locals(),context_instance = RequestContext(request))
 
 @login_required
 def delplan(request):
@@ -718,7 +717,7 @@ def levellist(request):
     users = Employee.objects.all()
     #print(groups)
 
-    return render_to_response('level/level-list.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/level/level-list.html',locals(),context_instance = RequestContext(request))
 
 @login_required
 @permission_required('Manager.add_level')
@@ -737,7 +736,7 @@ def addlevel(request):
         messages.add_message(request, messages.SUCCESS, 'Add level successfully!')
         return HttpResponseRedirect('levellist',locals())
 
-    return render_to_response('level/level-list.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/level/level-list.html',locals(),context_instance = RequestContext(request))
 
 @login_required
 @permission_required('Manager.change_level')
@@ -761,7 +760,7 @@ def editlevel(request):
         messages.add_message(request, messages.SUCCESS, 'Edit level successfully!')
         return HttpResponseRedirect('levellist',locals())
 
-    return render_to_response('level/level-list.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/level/level-list.html',locals(),context_instance = RequestContext(request))
 
 
 @login_required
@@ -782,7 +781,7 @@ def dellevel(request):
         messages.add_message(request, messages.SUCCESS, 'Delete level successfully!')
         return HttpResponseRedirect('levellist',locals())
 
-    return render_to_response('level/level-list.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/level/level-list.html',locals(),context_instance = RequestContext(request))
 #############################################################################
 
 #################################### Score #########################################
@@ -807,7 +806,7 @@ def scorelist(request):
 
     users = pageGenerator(request,users)
 
-    return render_to_response('score/score-list.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/score/score-list.html',locals(),context_instance = RequestContext(request))
 
 
 @login_required
@@ -839,7 +838,7 @@ def editscore(request):
         messages.add_message(request, messages.SUCCESS, 'Edit score successfully!')
         return HttpResponseRedirect('scorelist',locals())
 
-    return render_to_response('score/score-list.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/score/score-list.html',locals(),context_instance = RequestContext(request))
 
 
 @login_required
@@ -857,7 +856,7 @@ def eventlist(request):
 
     salarys = pageGenerator(request,salarys)
 
-    return render_to_response('score/event-list.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/score/event-list.html',locals(),context_instance = RequestContext(request))
 
 @login_required
 def salarybase(request):
@@ -878,4 +877,4 @@ def salarybase(request):
 @login_required
 def html5mario(request):
 
-    return render_to_response('html5/mario/index.html',locals(),context_instance = RequestContext(request))
+    return render_to_response('manage/html5/mario/index.html',locals(),context_instance = RequestContext(request))

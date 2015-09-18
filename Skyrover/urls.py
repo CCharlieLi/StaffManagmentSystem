@@ -1,8 +1,8 @@
 from django.conf.urls import include, url
 from django.contrib import admin
+from Website import views
 from Manager import views
 from rest_framework import routers
-
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
@@ -19,9 +19,38 @@ urlpatterns = [
     # Examples:
     # url(r'^$', 'Skyrover.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
+
     url(r'^admin/', include(admin.site.urls)),
 
-    #### REST ####
+    url(r'^$','Website.views.index',name="home"),
+    
+    url(r'^Introduce$','Website.views.Introduce',name="Introduce"),
+    url(r'^Structure$','Website.views.Structure',name="Structure"),
+    url(r'^Greattarget$','Website.views.Greattarget',name="Greattarget"),
+	url(r'^Partnership$','Website.views.Partnership',name="Partnership"),
+	url(r'^Greatleader$','Website.views.Greatleader',name="Greatleader"),
+	url(r'^LeaderIntro$','Website.views.LeaderIntro',name="LeaderIntro"),
+
+	url(r'^Directorspeech$','Website.views.Directorspeech',name="Directorspeech"),
+	url(r'^Teamstructure$','Website.views.Teamstructure',name="Teamstructure"),
+	url(r'^Teamtarget$','Website.views.Teamtarget',name="Teamtarget"),
+	url(r'^Teammember$','Website.views.Teammember',name="Teammember"),
+	url(r'^PersonIntro$','Website.views.PersonIntro',name="PersonIntro"),
+
+	url(r'^skr1620$','Website.views.skr1620',name="skr1620"),
+
+	url(r'^Announce$','Website.views.Announce',name="Announce"),
+	url(r'^AnnDetail$','Website.views.AnnDetail',name="AnnDetail"),
+	url(r'^News$','Website.views.News',name="News"),
+	url(r'^NewsDetail$','Website.views.NewsDetail',name="NewsDetail"),
+	url(r'^Policy$','Website.views.Policy',name="Policy"),
+	url(r'^Magazine$','Website.views.Magazine',name="Magazine"),
+
+	url(r'^ContactCop$','Website.views.ContactCop',name="ContactCop"),
+	url(r'^ContactJob$','Website.views.ContactJob',name="ContactJob"),
+
+
+	#### REST ####
     url(r'^API/REST/', include(router.urls),name='REST'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
@@ -84,6 +113,4 @@ urlpatterns = [
 
     #html5
     url(r'^html5/mario$','Manager.views.html5mario',name="html5mario"),
-
-
 ]
